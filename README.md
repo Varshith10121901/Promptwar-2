@@ -84,3 +84,49 @@ npm run dev
 *(Vite will launch the application on http://localhost:5173)*
 
 Navigate to the **Live Booths** section in the app, type in your native city, and watch the Gemini API instantly generate a custom HD map for you!
+
+---
+
+## Architecture & Flow
+
+### File Structure
+
+```mermaid
+graph TD
+    Root[VoteWise Project Root] --> Compose[docker-compose.yml]
+    Root --> GitIgnore[.gitignore]
+    Root --> FrontendDir[Frontend Code]
+    Root --> BackendDir[Backend /backend]
+
+    %% Frontend
+    FrontendDir --> Index[index.html]
+    FrontendDir --> CSSDir[css/]
+    FrontendDir --> JSDir[js/]
+    
+    JSDir --> AppJS[app.js]
+    JSDir --> DataJS[data.js]
+    
+    %% Backend
+    BackendDir --> MainPy[main.py]
+    BackendDir --> BackDocker[Dockerfile]
+```
+
+### Application Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend (app.js)
+    participant B as Backend (FastAPI)
+    participant G as Google Gemini API
+
+    U->>F: Log in with Location
+    F->>F: Auto-fill Map Input
+    U->>F: Click "Find Election Zones"
+    F->>B: POST /api/generate_map
+    B->>G: Request Polling Station Data
+    G-->>B: Return Coordinates
+    B->>B: Render HD Map (Folium)
+    B-->>F: Return Map HTML
+    F->>U: Display Map in Iframe
+```
