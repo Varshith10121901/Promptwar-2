@@ -33,7 +33,7 @@ import {
 import { navigate, initRouter } from './router.js';
 import { fetchElectionMap } from './api.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
   // ─────────────────────────────────────────────
   // UTILITIES
   // ─────────────────────────────────────────────
@@ -647,4 +647,4 @@ document.addEventListener('DOMContentLoaded', () => {
       n.textContent = current + (target > 50 ? '+' : '');
     }, 50);
   });
-});
+})();
