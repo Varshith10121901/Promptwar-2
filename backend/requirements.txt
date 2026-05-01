@@ -3,3 +3,9 @@ uvicorn
 folium
 google-generativeai
 pydantic
+pytest
+pytest-asyncio
+httpx
+pytest-cov
+flake8
+bandit
