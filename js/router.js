@@ -1,69 +1,88 @@
 /**
- * VoteWise Router Module
- * Hash-based SPA routing with authentication guard.
+ * VoteWise — Router Module
+ *
+ * Handles hash-based SPA routing with authentication guard.
+ * Protected pages require a logged-in user; unauthenticated users
+ * are redirected to the login page.
  */
 
-const PROTECTED_PAGES = ['home', 'timeline', 'wizard', 'chat', 'quiz', 'dashboard', 'booths', 'museum', 'events', 'faq'];
+const PROTECTED_PAGES = [
+  'home',
+  'timeline',
+  'wizard',
+  'chat',
+  'quiz',
+  'dashboard',
+  'booths',
+  'museum',
+  'events',
+  'faq',
+];
 
 /**
- * Navigates to a page by its ID.
- * @param {string} pageId - The page identifier (without the 'page-' prefix).
- * @param {Function} onDashboard - Callback to invoke when navigating to dashboard.
+ * Navigates to a page by setting the hash and toggling visibility.
+ * @param {string} pageId - Page identifier (without 'page-' prefix).
  */
-export function navigate(pageId, onDashboard) {
+export function navigate(pageId) {
   window.location.hash = pageId;
-  const pages = document.querySelectorAll('.page');
-  const navItems = document.querySelectorAll('.nav-item');
 
-  pages.forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
   document.getElementById(`page-${pageId}`)?.classList.add('active');
 
-  navItems.forEach(n => {
+  document.querySelectorAll('.nav-item').forEach((n) => {
     n.classList.remove('active');
     if (n.dataset.page === pageId) n.classList.add('active');
   });
 
-  if (pageId === 'dashboard' && typeof onDashboard === 'function') {
-    onDashboard();
-  }
-
   // Close mobile sidebar on navigation
   document.getElementById('sidebar')?.classList.remove('open');
+
+  // Announce navigation to screen readers
+  const ariaLive = document.getElementById('ariaLive');
+  if (ariaLive) ariaLive.textContent = `Navigated to ${pageId} page`;
 }
 
 /**
- * Initializes the router. Sets up hash change listener and intercepts
- * all [data-navigate] clicks. Enforces auth guard for protected pages.
+ * Initializes the SPA router.
+ * Binds hash changes, [data-navigate] click handlers,
+ * and enforces the authentication guard.
  *
- * @param {Function} onNavigate - Called with (pageId) on every navigation.
  * @param {Function} isAuthenticated - Returns true if user is logged in.
+ * @param {Function} onNavigate - Called after every successful navigation.
  */
-export function initRouter(onNavigate, isAuthenticated) {
-  const handleHash = () => {
+export function initRouter(isAuthenticated, onNavigate) {
+  function handleRoute() {
     const hash = window.location.hash.replace('#', '') || 'home';
-    const isProtected = PROTECTED_PAGES.includes(hash);
 
-    if (isProtected && !isAuthenticated()) {
-      navigate('login', null);
+    // Auth guard: redirect to login if not authenticated
+    if (PROTECTED_PAGES.includes(hash) && !isAuthenticated()) {
+      navigate('login');
       return;
     }
-    onNavigate(hash);
-  };
 
-  window.addEventListener('hashchange', handleHash);
+    navigate(hash);
+    if (typeof onNavigate === 'function') onNavigate(hash);
+  }
 
-  document.querySelectorAll('[data-navigate]').forEach(el => {
+  // Listen for hash changes
+  window.addEventListener('hashchange', handleRoute);
+
+  // Intercept all [data-navigate] clicks
+  document.querySelectorAll('[data-navigate]').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       const target = el.dataset.navigate;
+
       if (PROTECTED_PAGES.includes(target) && !isAuthenticated()) {
-        navigate('login', null);
+        navigate('login');
         return;
       }
-      onNavigate(target);
+
+      navigate(target);
+      if (typeof onNavigate === 'function') onNavigate(target);
     });
   });
 
-  // Handle initial load
-  handleHash();
+  // Initial route on page load
+  handleRoute();
 }

@@ -1,7 +1,9 @@
 /**
- * VoteWise State Module
+ * VoteWise — Centralized State Module
+ *
  * Single source of truth for all application state.
- * Persists relevant fields to localStorage automatically.
+ * Uses localStorage for persistence and CustomEvents for reactivity.
+ * Other modules subscribe via window.addEventListener('stateChange', ...).
  */
 
 export const state = {
@@ -11,12 +13,22 @@ export const state = {
   wizardProgress: JSON.parse(localStorage.getItem('vw_wizard')) || {},
   quizScore: parseInt(localStorage.getItem('vw_quizScore')) || 0,
   chatHistory: [],
-  timelineView: 'horizontal'
+  timelineView: 'horizontal',
+  isLoading: false,
+  error: null,
 };
 
 /**
- * Updates the user in state and persists to localStorage.
- * @param {Object|null} user - The user object or null to log out.
+ * Dispatches a stateChange event so all modules can react.
+ * @param {string} key - The state key that changed.
+ */
+function notify(key) {
+  window.dispatchEvent(new CustomEvent('stateChange', { detail: { key } }));
+}
+
+/**
+ * Saves user to state and persists to localStorage.
+ * @param {Object|null} user - User object { name, email, location } or null.
  */
 export function setUser(user) {
   state.user = user;
@@ -25,33 +37,65 @@ export function setUser(user) {
   } else {
     localStorage.removeItem('vw_user');
   }
+  notify('user');
 }
 
 /**
- * Updates the selected region and persists to localStorage.
- * @param {string} region - Region code e.g. 'india', 'us'
+ * Updates the selected region and persists.
+ * @param {string} region - Region code: 'india', 'us', 'uk', 'eu'.
  */
 export function setRegion(region) {
   state.region = region;
   localStorage.setItem('vw_region', region);
+  notify('region');
 }
 
 /**
- * Toggles a wizard step's completion and persists to localStorage.
- * @param {string} key - Compound key e.g. 'india_step1'
+ * Applies and persists theme.
+ * @param {string} theme - 'light' or 'dark'.
+ */
+export function setTheme(theme) {
+  state.theme = theme;
+  localStorage.setItem('vw_theme', theme);
+  notify('theme');
+}
+
+/**
+ * Toggles a wizard step's completion state.
+ * @param {string} key - Compound key e.g. 'india_step1'.
  */
 export function toggleWizardStep(key) {
   state.wizardProgress[key] = !state.wizardProgress[key];
   localStorage.setItem('vw_wizard', JSON.stringify(state.wizardProgress));
+  notify('wizardProgress');
 }
 
 /**
- * Saves the latest quiz score if it's a new high score.
- * @param {number} score - The score achieved in this session.
+ * Saves quiz score (only if higher than previous best).
+ * @param {number} score - Score achieved.
  */
 export function saveQuizScore(score) {
   if (score > state.quizScore) {
     state.quizScore = score;
-    localStorage.setItem('vw_quizScore', score);
+    localStorage.setItem('vw_quizScore', String(score));
+    notify('quizScore');
   }
+}
+
+/**
+ * Adds a chat interaction to history.
+ * @param {string} question
+ * @param {string} answer
+ */
+export function addChatEntry(question, answer) {
+  state.chatHistory.push({ q: question, a: answer });
+  notify('chatHistory');
+}
+
+/**
+ * Returns true if a user session exists.
+ * @returns {boolean}
+ */
+export function isAuthenticated() {
+  return state.user !== null;
 }

@@ -22,7 +22,7 @@ export function initConfetti() {
         color: colors[Math.floor(Math.random() * colors.length)],
         tilt: Math.random() * 10,
         tiltAngle: 0,
-        tiltAngleInc: (Math.random() * 0.07) + 0.05
+        tiltAngleInc: Math.random() * 0.07 + 0.05,
       });
     }
   }
@@ -62,6 +62,6 @@ export function initConfetti() {
       particles = [];
       createParticles();
       draw();
-    }
+    },
   };
 }

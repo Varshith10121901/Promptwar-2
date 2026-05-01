@@ -1,494 +1,601 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VoteWise — Your Personal Election Assistant</title>
-  <meta name="description" content="Understand. Prepare. Vote with Confidence. Interactive election guide with timelines, step-by-step wizard, AI assistant, and quizzes." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="stylesheet" href="/css/components.css" />
-  <link rel="manifest" href="/manifest.json" />
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <meta name="theme-color" content="#1A73E8" />
-</head>
-<body>
-  <!-- Accessibility: Skip navigation link -->
-  <a href="#mainContent" class="skip-link">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoteWise — Your Personal Election Assistant</title>
+    <meta
+      name="description"
+      content="Understand. Prepare. Vote with Confidence. Interactive election guide with timelines, step-by-step wizard, AI assistant, and quizzes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Google+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="theme-color" content="#1A73E8" />
+  </head>
+  <body>
+    <!-- Accessibility: Skip navigation link -->
+    <a href="#mainContent" class="skip-link">Skip to main content</a>
 
-  <!-- Accessibility: ARIA live region for dynamic announcements -->
-  <div id="ariaLive" role="alert" aria-live="polite" aria-atomic="true" class="sr-only"></div>
-  <!-- Sidebar Navigation -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">
-        <div class="logo-icon"><i data-lucide="vote"></i></div>
-        <span class="logo-text">VoteWise</span>
+    <!-- Accessibility: ARIA live region for dynamic announcements -->
+    <div id="ariaLive" role="alert" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon"><i data-lucide="vote"></i></div>
+          <span class="logo-text">VoteWise</span>
+        </div>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">✕</button>
       </div>
-      <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">✕</button>
-    </div>
-    <nav class="sidebar-nav">
-      <a href="#home" class="nav-item active" data-page="home">
-        <span class="nav-icon"><i data-lucide="home"></i></span><span class="nav-label">Home</span>
-      </a>
-      <a href="#timeline" class="nav-item" data-page="timeline">
-        <span class="nav-icon"><i data-lucide="calendar"></i></span><span class="nav-label">Timeline</span>
-      </a>
-      <a href="#wizard" class="nav-item" data-page="wizard">
-        <span class="nav-icon"><i data-lucide="clipboard-list"></i></span><span class="nav-label">How to Vote</span>
-      </a>
-      <a href="#chat" class="nav-item" data-page="chat">
-        <span class="nav-icon"><i data-lucide="bot"></i></span><span class="nav-label">AI Assistant</span>
-      </a>
-      <a href="#quiz" class="nav-item" data-page="quiz">
-        <span class="nav-icon"><i data-lucide="brain"></i></span><span class="nav-label">Quiz</span>
-      </a>
-      <a href="#dashboard" class="nav-item" data-page="dashboard">
-        <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span><span class="nav-label">Dashboard</span>
-      </a>
-      <a href="#booths" class="nav-item" data-page="booths">
-        <span class="nav-icon"><i data-lucide="map-pin"></i></span><span class="nav-label">Live Booths</span>
-      </a>
-      <a href="#museum" class="nav-item" data-page="museum">
-        <span class="nav-icon"><i data-lucide="landmark"></i></span><span class="nav-label">Virtual Museum</span>
-      </a>
-      <a href="#events" class="nav-item" data-page="events">
-        <span class="nav-icon"><i data-lucide="tent"></i></span><span class="nav-label">Live Events</span>
-      </a>
-      <a href="#faq" class="nav-item" data-page="faq">
-        <span class="nav-icon"><i data-lucide="help-circle"></i></span><span class="nav-label">FAQ</span>
-      </a>
-    </nav>
-    <div class="sidebar-footer">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-        <span class="theme-icon"><i data-lucide="moon"></i></span>
-        <span class="theme-label">Dark Mode</span>
+      <nav class="sidebar-nav">
+        <a href="#home" class="nav-item active" data-page="home">
+          <span class="nav-icon"><i data-lucide="home"></i></span
+          ><span class="nav-label">Home</span>
+        </a>
+        <a href="#timeline" class="nav-item" data-page="timeline">
+          <span class="nav-icon"><i data-lucide="calendar"></i></span
+          ><span class="nav-label">Timeline</span>
+        </a>
+        <a href="#wizard" class="nav-item" data-page="wizard">
+          <span class="nav-icon"><i data-lucide="clipboard-list"></i></span
+          ><span class="nav-label">How to Vote</span>
+        </a>
+        <a href="#chat" class="nav-item" data-page="chat">
+          <span class="nav-icon"><i data-lucide="bot"></i></span
+          ><span class="nav-label">AI Assistant</span>
+        </a>
+        <a href="#quiz" class="nav-item" data-page="quiz">
+          <span class="nav-icon"><i data-lucide="brain"></i></span
+          ><span class="nav-label">Quiz</span>
+        </a>
+        <a href="#dashboard" class="nav-item" data-page="dashboard">
+          <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span
+          ><span class="nav-label">Dashboard</span>
+        </a>
+        <a href="#booths" class="nav-item" data-page="booths">
+          <span class="nav-icon"><i data-lucide="map-pin"></i></span
+          ><span class="nav-label">Live Booths</span>
+        </a>
+        <a href="#museum" class="nav-item" data-page="museum">
+          <span class="nav-icon"><i data-lucide="landmark"></i></span
+          ><span class="nav-label">Virtual Museum</span>
+        </a>
+        <a href="#events" class="nav-item" data-page="events">
+          <span class="nav-icon"><i data-lucide="tent"></i></span
+          ><span class="nav-label">Live Events</span>
+        </a>
+        <a href="#faq" class="nav-item" data-page="faq">
+          <span class="nav-icon"><i data-lucide="help-circle"></i></span
+          ><span class="nav-label">FAQ</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <span class="theme-icon"><i data-lucide="moon"></i></span>
+          <span class="theme-label">Dark Mode</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Top Bar -->
+    <header class="topbar" id="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
       </button>
-    </div>
-  </aside>
+      <div class="topbar-logo"><i data-lucide="vote"></i> VoteWise</div>
+      <button class="theme-toggle-mobile" id="themeToggleMobile" aria-label="Toggle dark mode">
+        <i data-lucide="moon"></i>
+      </button>
+    </header>
 
-  <!-- Mobile Top Bar -->
-  <header class="topbar" id="topbar">
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="topbar-logo"><i data-lucide="vote"></i> VoteWise</div>
-    <button class="theme-toggle-mobile" id="themeToggleMobile" aria-label="Toggle dark mode"><i data-lucide="moon"></i></button>
-  </header>
-
-  <!-- Main Content -->
-  <main class="main-content" id="mainContent">
-
-    <!-- LOGIN PAGE -->
-    <section class="page" id="page-login">
-      <div class="login-container">
-        <div class="login-card glass">
-          <div class="login-header">
-            <div class="logo">
-              <div class="logo-icon"><i data-lucide="vote"></i></div>
-              <span class="logo-text">VoteWise</span>
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <!-- LOGIN PAGE -->
+      <section class="page" id="page-login">
+        <div class="login-container">
+          <div class="login-card glass">
+            <div class="login-header">
+              <div class="logo">
+                <div class="logo-icon"><i data-lucide="vote"></i></div>
+                <span class="logo-text">VoteWise</span>
+              </div>
+              <h1>Welcome to VoteWise</h1>
+              <p>Your personalized election assistant. Log in to get started.</p>
             </div>
-            <h1>Welcome to VoteWise</h1>
-            <p>Your personalized election assistant. Log in to get started.</p>
+            <form id="loginForm" class="login-form">
+              <div class="form-group">
+                <label for="userName">Full Name</label>
+                <div class="input-with-icon">
+                  <i data-lucide="user"></i>
+                  <input type="text" id="userName" placeholder="Enter your name" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="userEmail">Email Address</label>
+                <div class="input-with-icon">
+                  <i data-lucide="mail"></i>
+                  <input type="email" id="userEmail" placeholder="name@example.com" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="userLocation">Native Place / Location</label>
+                <div class="input-with-icon">
+                  <i data-lucide="map-pin"></i>
+                  <input
+                    type="text"
+                    id="userLocation"
+                    placeholder="e.g. Bangalore, India"
+                    required
+                  />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                <span>Enter VoteWise</span>
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </form>
+            <div class="login-footer">
+              <p>By continuing, you agree to our terms of service.</p>
+            </div>
           </div>
-          <form id="loginForm" class="login-form">
-            <div class="form-group">
-              <label for="userName">Full Name</label>
-              <div class="input-with-icon">
-                <i data-lucide="user"></i>
-                <input type="text" id="userName" placeholder="Enter your name" required>
+        </div>
+      </section>
+
+      <!-- HOME PAGE -->
+      <section class="page active" id="page-home">
+        <div class="hero">
+          <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+          </div>
+          <div class="hero-content">
+            <div class="hero-badge"><i data-lucide="vote"></i> Trusted by Citizens Worldwide</div>
+            <h1 class="hero-title">
+              Understand. Prepare.<br /><span class="gradient-text">Vote with Confidence.</span>
+            </h1>
+            <p class="hero-subtitle">
+              Your AI-powered election companion. Get personalized timelines, step-by-step guides,
+              and instant answers — all in one beautiful app.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary btn-lg" data-navigate="timeline">
+                <span>Start Interactive Timeline</span>
+                <span class="btn-arrow">→</span>
+              </button>
+              <button class="btn btn-outline btn-lg" data-navigate="wizard">
+                <span>How to Vote Guide</span>
+              </button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat">
+                <span class="stat-number" data-count="4">0</span
+                ><span class="stat-label">Countries</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number" data-count="50">0</span
+                ><span class="stat-label">Election Steps</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number" data-count="100">0</span
+                ><span class="stat-label">FAQ Answers</span>
               </div>
             </div>
-            <div class="form-group">
-              <label for="userEmail">Email Address</label>
-              <div class="input-with-icon">
-                <i data-lucide="mail"></i>
-                <input type="email" id="userEmail" placeholder="name@example.com" required>
+          </div>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="features-section">
+          <h2 class="section-title">Everything You Need to Vote Smart</h2>
+          <div class="features-grid">
+            <div class="feature-card" data-navigate="timeline">
+              <div class="feature-icon"><i data-lucide="calendar"></i></div>
+              <h3>Election Timeline</h3>
+              <p>
+                Interactive visual timeline with countdowns, milestones, and region-specific dates.
+              </p>
+            </div>
+            <div class="feature-card" data-navigate="wizard">
+              <div class="feature-icon"><i data-lucide="clipboard-list"></i></div>
+              <h3>Voting Wizard</h3>
+              <p>Step-by-step personalized guide based on your location and voting method.</p>
+            </div>
+            <div class="feature-card" data-navigate="chat">
+              <div class="feature-icon"><i data-lucide="bot"></i></div>
+              <h3>AI Assistant</h3>
+              <p>Ask anything about elections. Get instant, accurate, context-aware answers.</p>
+            </div>
+            <div class="feature-card" data-navigate="quiz">
+              <div class="feature-icon"><i data-lucide="brain"></i></div>
+              <h3>Knowledge Quiz</h3>
+              <p>Test your election knowledge with adaptive quizzes and earn badges.</p>
+            </div>
+            <div class="feature-card" data-navigate="dashboard">
+              <div class="feature-icon"><i data-lucide="layout-dashboard"></i></div>
+              <h3>Your Dashboard</h3>
+              <p>Track progress, saved preferences, and upcoming deadline reminders.</p>
+            </div>
+            <div class="feature-card" data-navigate="booths">
+              <div class="feature-icon"><i data-lucide="map-pin"></i></div>
+              <h3>Live Booth Status</h3>
+              <p>Check real-time crowd levels and wait times at polling stations.</p>
+            </div>
+            <div class="feature-card" data-navigate="museum">
+              <div class="feature-icon"><i data-lucide="landmark"></i></div>
+              <h3>Virtual Museum</h3>
+              <p>Explore the immersive history of elections and democracy.</p>
+            </div>
+            <div class="feature-card" data-navigate="faq">
+              <div class="feature-icon"><i data-lucide="help-circle"></i></div>
+              <h3>FAQ Center</h3>
+              <p>Searchable answers to 100+ common election questions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TIMELINE PAGE -->
+      <section class="page" id="page-timeline">
+        <div class="page-header">
+          <h1 class="page-title"><i data-lucide="calendar"></i> Election Timeline</h1>
+          <p class="page-desc">Track every milestone from registration to results day</p>
+        </div>
+        <div class="region-selector">
+          <button class="region-btn active" data-region="india">India</button>
+          <button class="region-btn" data-region="us">USA</button>
+          <button class="region-btn" data-region="uk">UK</button>
+          <button class="region-btn" data-region="eu">EU</button>
+        </div>
+        <div class="countdown-banner" id="countdownBanner">
+          <div class="countdown-label"><i data-lucide="clock"></i> Next Key Date</div>
+          <div class="countdown-event" id="countdownEvent"></div>
+          <div class="countdown-timer" id="countdownTimer"></div>
+        </div>
+        <div class="timeline-toggle">
+          <button class="toggle-btn active" data-view="horizontal">Horizontal</button>
+          <button class="toggle-btn" data-view="vertical">Vertical</button>
+        </div>
+        <div class="timeline-container" id="timelineContainer"></div>
+      </section>
+
+      <!-- WIZARD PAGE -->
+      <section class="page" id="page-wizard">
+        <div class="page-header">
+          <h1 class="page-title">
+            <i data-lucide="clipboard-list"></i> How to Vote — Step by Step
+          </h1>
+          <p class="page-desc">Your personalized voting checklist</p>
+        </div>
+        <div class="wizard-config">
+          <div class="config-group">
+            <label>Your Region</label>
+            <select id="wizardRegion">
+              <option value="india">India</option>
+              <option value="us">USA</option>
+              <option value="uk">UK</option>
+              <option value="eu">EU</option>
+            </select>
+          </div>
+          <div class="config-group">
+            <label>Voting Method</label>
+            <select id="wizardMethod">
+              <option value="in-person"><i data-lucide="landmark"></i> In-Person</option>
+              <option value="mail-in"><i data-lucide="mail"></i> Mail-In / Postal</option>
+            </select>
+          </div>
+        </div>
+        <div class="wizard-progress">
+          <div class="progress-bar"><div class="progress-fill" id="wizardProgress"></div></div>
+          <span class="progress-text" id="wizardProgressText">0% Complete</span>
+        </div>
+        <div class="wizard-steps" id="wizardSteps"></div>
+      </section>
+
+      <!-- CHAT PAGE -->
+      <section class="page" id="page-chat">
+        <div class="chat-container">
+          <div class="chat-header">
+            <div class="chat-avatar"><i data-lucide="bot"></i></div>
+            <div>
+              <h2 class="chat-title">VoteWise AI Assistant</h2>
+              <span class="chat-status">● Online — Powered by Gemini</span>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+              <div class="message-avatar"><i data-lucide="bot"></i></div>
+              <div class="message-content">
+                <p>Hello! I'm your VoteWise AI assistant. I can help you with:</p>
+                <ul>
+                  <li>Voter registration requirements</li>
+                  <li>Election dates and deadlines</li>
+                  <li>Voting methods and procedures</li>
+                  <li>ID and document requirements</li>
+                </ul>
+                <p>What would you like to know?</p>
               </div>
             </div>
-            <div class="form-group">
-              <label for="userLocation">Native Place / Location</label>
-              <div class="input-with-icon">
-                <i data-lucide="map-pin"></i>
-                <input type="text" id="userLocation" placeholder="e.g. Bangalore, India" required>
-              </div>
+          </div>
+          <div class="chat-suggestions" id="chatSuggestions">
+            <button class="suggestion-chip">How do I register to vote?</button>
+            <button class="suggestion-chip">What ID do I need?</button>
+            <button class="suggestion-chip">When is election day?</button>
+            <button class="suggestion-chip">Can I vote by mail?</button>
+            <button class="suggestion-chip">What is an EVM?</button>
+          </div>
+          <div class="chat-input-area">
+            <input
+              type="text"
+              class="chat-input"
+              id="chatInput"
+              placeholder="Ask anything about elections..."
+            />
+            <button class="chat-send" id="chatSend" aria-label="Send message">
+              <i data-lucide="send"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ PAGE -->
+      <section class="page" id="page-quiz">
+        <div class="page-header">
+          <h1 class="page-title"><i data-lucide="brain"></i> Election Knowledge Quiz</h1>
+          <p class="page-desc">Test your knowledge — 10 questions, see how you score!</p>
+        </div>
+        <div class="quiz-start" id="quizStart">
+          <div class="quiz-hero-card">
+            <div class="quiz-hero-icon"><i data-lucide="brain"></i></div>
+            <h2>Ready to Test Your Election IQ?</h2>
+            <p>
+              10 questions covering voter registration, election processes, and democratic rights
+              across multiple countries.
+            </p>
+            <div class="quiz-difficulty">
+              <span class="diff-badge easy">Easy</span>
+              <span class="diff-badge medium">Medium</span>
+              <span class="diff-badge hard">Hard</span>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">
-              <span>Enter VoteWise</span>
-              <i data-lucide="arrow-right"></i>
-            </button>
-          </form>
-          <div class="login-footer">
-            <p>By continuing, you agree to our terms of service.</p>
+            <button class="btn btn-primary btn-lg" id="startQuizBtn">Start Quiz →</button>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- HOME PAGE -->
-    <section class="page active" id="page-home">
-      <div class="hero">
-        <div class="hero-bg-shapes">
-          <div class="shape shape-1"></div>
-          <div class="shape shape-2"></div>
-          <div class="shape shape-3"></div>
-          <div class="shape shape-4"></div>
-        </div>
-        <div class="hero-content">
-          <div class="hero-badge"><i data-lucide="vote"></i> Trusted by Citizens Worldwide</div>
-          <h1 class="hero-title">Understand. Prepare.<br/><span class="gradient-text">Vote with Confidence.</span></h1>
-          <p class="hero-subtitle">Your AI-powered election companion. Get personalized timelines, step-by-step guides, and instant answers — all in one beautiful app.</p>
-          <div class="hero-actions">
-            <button class="btn btn-primary btn-lg" data-navigate="timeline">
-              <span>Start Interactive Timeline</span>
-              <span class="btn-arrow">→</span>
-            </button>
-            <button class="btn btn-outline btn-lg" data-navigate="wizard">
-              <span>How to Vote Guide</span>
-            </button>
+        <div class="quiz-active hidden" id="quizActive">
+          <div class="quiz-progress">
+            <div class="quiz-progress-bar">
+              <div class="quiz-progress-fill" id="quizProgressFill"></div>
+            </div>
+            <span class="quiz-progress-text" id="quizProgressText">Question 1 of 10</span>
           </div>
-          <div class="hero-stats">
-            <div class="stat"><span class="stat-number" data-count="4">0</span><span class="stat-label">Countries</span></div>
-            <div class="stat"><span class="stat-number" data-count="50">0</span><span class="stat-label">Election Steps</span></div>
-            <div class="stat"><span class="stat-number" data-count="100">0</span><span class="stat-label">FAQ Answers</span></div>
+          <div class="quiz-card" id="quizCard">
+            <div class="quiz-question" id="quizQuestion"></div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <button class="btn btn-primary quiz-next hidden" id="quizNext">Next Question →</button>
           </div>
         </div>
-      </div>
-
-      <!-- Feature Cards -->
-      <div class="features-section">
-        <h2 class="section-title">Everything You Need to Vote Smart</h2>
-        <div class="features-grid">
-          <div class="feature-card" data-navigate="timeline">
-            <div class="feature-icon"><i data-lucide="calendar"></i></div>
-            <h3>Election Timeline</h3>
-            <p>Interactive visual timeline with countdowns, milestones, and region-specific dates.</p>
-          </div>
-          <div class="feature-card" data-navigate="wizard">
-            <div class="feature-icon"><i data-lucide="clipboard-list"></i></div>
-            <h3>Voting Wizard</h3>
-            <p>Step-by-step personalized guide based on your location and voting method.</p>
-          </div>
-          <div class="feature-card" data-navigate="chat">
-            <div class="feature-icon"><i data-lucide="bot"></i></div>
-            <h3>AI Assistant</h3>
-            <p>Ask anything about elections. Get instant, accurate, context-aware answers.</p>
-          </div>
-          <div class="feature-card" data-navigate="quiz">
-            <div class="feature-icon"><i data-lucide="brain"></i></div>
-            <h3>Knowledge Quiz</h3>
-            <p>Test your election knowledge with adaptive quizzes and earn badges.</p>
-          </div>
-          <div class="feature-card" data-navigate="dashboard">
-            <div class="feature-icon"><i data-lucide="layout-dashboard"></i></div>
-            <h3>Your Dashboard</h3>
-            <p>Track progress, saved preferences, and upcoming deadline reminders.</p>
-          </div>
-          <div class="feature-card" data-navigate="booths">
-            <div class="feature-icon"><i data-lucide="map-pin"></i></div>
-            <h3>Live Booth Status</h3>
-            <p>Check real-time crowd levels and wait times at polling stations.</p>
-          </div>
-          <div class="feature-card" data-navigate="museum">
-            <div class="feature-icon"><i data-lucide="landmark"></i></div>
-            <h3>Virtual Museum</h3>
-            <p>Explore the immersive history of elections and democracy.</p>
-          </div>
-          <div class="feature-card" data-navigate="faq">
-            <div class="feature-icon"><i data-lucide="help-circle"></i></div>
-            <h3>FAQ Center</h3>
-            <p>Searchable answers to 100+ common election questions.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TIMELINE PAGE -->
-    <section class="page" id="page-timeline">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="calendar"></i> Election Timeline</h1>
-        <p class="page-desc">Track every milestone from registration to results day</p>
-      </div>
-      <div class="region-selector">
-        <button class="region-btn active" data-region="india"> India</button>
-        <button class="region-btn" data-region="us"> USA</button>
-        <button class="region-btn" data-region="uk"> UK</button>
-        <button class="region-btn" data-region="eu"> EU</button>
-      </div>
-      <div class="countdown-banner" id="countdownBanner">
-        <div class="countdown-label"><i data-lucide="clock"></i> Next Key Date</div>
-        <div class="countdown-event" id="countdownEvent"></div>
-        <div class="countdown-timer" id="countdownTimer"></div>
-      </div>
-      <div class="timeline-toggle">
-        <button class="toggle-btn active" data-view="horizontal">Horizontal</button>
-        <button class="toggle-btn" data-view="vertical">Vertical</button>
-      </div>
-      <div class="timeline-container" id="timelineContainer"></div>
-    </section>
-
-    <!-- WIZARD PAGE -->
-    <section class="page" id="page-wizard">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="clipboard-list"></i> How to Vote — Step by Step</h1>
-        <p class="page-desc">Your personalized voting checklist</p>
-      </div>
-      <div class="wizard-config">
-        <div class="config-group">
-          <label>Your Region</label>
-          <select id="wizardRegion">
-            <option value="india"> India</option>
-            <option value="us"> USA</option>
-            <option value="uk"> UK</option>
-            <option value="eu"> EU</option>
-          </select>
-        </div>
-        <div class="config-group">
-          <label>Voting Method</label>
-          <select id="wizardMethod">
-            <option value="in-person"><i data-lucide="landmark"></i> In-Person</option>
-            <option value="mail-in"><i data-lucide="mail"></i> Mail-In / Postal</option>
-          </select>
-        </div>
-      </div>
-      <div class="wizard-progress">
-        <div class="progress-bar"><div class="progress-fill" id="wizardProgress"></div></div>
-        <span class="progress-text" id="wizardProgressText">0% Complete</span>
-      </div>
-      <div class="wizard-steps" id="wizardSteps"></div>
-    </section>
-
-    <!-- CHAT PAGE -->
-    <section class="page" id="page-chat">
-      <div class="chat-container">
-        <div class="chat-header">
-          <div class="chat-avatar"><i data-lucide="bot"></i></div>
-          <div>
-            <h2 class="chat-title">VoteWise AI Assistant</h2>
-            <span class="chat-status">● Online — Powered by Gemini</span>
-          </div>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-          <div class="message bot">
-            <div class="message-avatar"><i data-lucide="bot"></i></div>
-            <div class="message-content">
-              <p>Hello! I'm your VoteWise AI assistant. I can help you with:</p>
-              <ul>
-                <li>Voter registration requirements</li>
-                <li>Election dates and deadlines</li>
-                <li>Voting methods and procedures</li>
-                <li>ID and document requirements</li>
-              </ul>
-              <p>What would you like to know?</p>
+        <div class="quiz-results hidden" id="quizResults">
+          <div class="results-card">
+            <div class="results-icon" id="resultsIcon"><i data-lucide="trophy"></i></div>
+            <h2 class="results-title" id="resultsTitle">Great Job!</h2>
+            <div class="results-score" id="resultsScore">8/10</div>
+            <p class="results-message" id="resultsMessage">You're well-informed!</p>
+            <div class="results-actions">
+              <button class="btn btn-primary" id="retryQuiz">Try Again</button>
+              <button class="btn btn-outline" id="shareResults">Share Results</button>
             </div>
           </div>
         </div>
-        <div class="chat-suggestions" id="chatSuggestions">
-          <button class="suggestion-chip">How do I register to vote?</button>
-          <button class="suggestion-chip">What ID do I need?</button>
-          <button class="suggestion-chip">When is election day?</button>
-          <button class="suggestion-chip">Can I vote by mail?</button>
-          <button class="suggestion-chip">What is an EVM?</button>
+      </section>
+
+      <!-- BOOTHS PAGE -->
+      <section class="page" id="page-booths">
+        <div class="page-header">
+          <h1 class="page-title"><i data-lucide="map-pin"></i> Live Polling Booths</h1>
+          <p class="page-desc">Real-time crowd detection and wait time analysis</p>
         </div>
-        <div class="chat-input-area">
-          <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything about elections..." />
-          <button class="chat-send" id="chatSend" aria-label="Send message">
-            <i data-lucide="send"></i>
+        <div class="booth-search" style="display: flex; gap: 16px; margin-bottom: 32px">
+          <input
+            type="text"
+            class="chat-input"
+            id="mapLocationInput"
+            style="flex: 1"
+            placeholder="Enter your native place (e.g., Bangalore)..."
+          />
+          <button
+            id="btnFindMap"
+            class="btn btn-primary"
+            style="display: flex; align-items: center; gap: 8px"
+          >
+            <i data-lucide="map"></i> Find Election Zones
           </button>
         </div>
-      </div>
-    </section>
-
-    <!-- QUIZ PAGE -->
-    <section class="page" id="page-quiz">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="brain"></i> Election Knowledge Quiz</h1>
-        <p class="page-desc">Test your knowledge — 10 questions, see how you score!</p>
-      </div>
-      <div class="quiz-start" id="quizStart">
-        <div class="quiz-hero-card">
-          <div class="quiz-hero-icon"><i data-lucide="brain"></i></div>
-          <h2>Ready to Test Your Election IQ?</h2>
-          <p>10 questions covering voter registration, election processes, and democratic rights across multiple countries.</p>
-          <div class="quiz-difficulty">
-            <span class="diff-badge easy">Easy</span>
-            <span class="diff-badge medium">Medium</span>
-            <span class="diff-badge hard">Hard</span>
-          </div>
-          <button class="btn btn-primary btn-lg" id="startQuizBtn">Start Quiz →</button>
-        </div>
-      </div>
-      <div class="quiz-active hidden" id="quizActive">
-        <div class="quiz-progress">
-          <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-          <span class="quiz-progress-text" id="quizProgressText">Question 1 of 10</span>
-        </div>
-        <div class="quiz-card" id="quizCard">
-          <div class="quiz-question" id="quizQuestion"></div>
-          <div class="quiz-options" id="quizOptions"></div>
-          <button class="btn btn-primary quiz-next hidden" id="quizNext">Next Question →</button>
-        </div>
-      </div>
-      <div class="quiz-results hidden" id="quizResults">
-        <div class="results-card">
-          <div class="results-icon" id="resultsIcon"><i data-lucide="trophy"></i></div>
-          <h2 class="results-title" id="resultsTitle">Great Job!</h2>
-          <div class="results-score" id="resultsScore">8/10</div>
-          <p class="results-message" id="resultsMessage">You're well-informed!</p>
-          <div class="results-actions">
-            <button class="btn btn-primary" id="retryQuiz">Try Again</button>
-            <button class="btn btn-outline" id="shareResults">Share Results</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BOOTHS PAGE -->
-    <section class="page" id="page-booths">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="map-pin"></i> Live Polling Booths</h1>
-        <p class="page-desc">Real-time crowd detection and wait time analysis</p>
-      </div>
-      <div class="booth-search" style="display: flex; gap: 16px; margin-bottom: 32px;">
-        <input type="text" class="chat-input" id="mapLocationInput" style="flex: 1;" placeholder="Enter your native place (e.g., Bangalore)..." />
-        <button id="btnFindMap" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;"><i data-lucide="map"></i> Find Election Zones</button>
-      </div>
-      <div id="mapContainer" class="hidden" style="margin-bottom: 32px; width: 100%; height: 500px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); position: relative;">
-        <div id="mapLoading" class="hidden" style="position: absolute; inset: 0; background: var(--bg-surface); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10;">
-          <div class="typing-indicator" style="display: flex;"><span></span><span></span><span></span></div>
-          <span style="margin-top: 16px; font-weight: 500; color: var(--primary);">Generating HD Map via Gemini API...</span>
-        </div>
-        <iframe id="mapFrame" src="" style="width: 100%; height: 100%; border: none; background: white;"></iframe>
-      </div>
-      <div class="booth-grid" id="boothGrid"></div>
-    </section>
-
-    <!-- MUSEUM PAGE -->
-    <section class="page" id="page-museum">
-      <div class="museum-container">
-        <div class="museum-header">
-          <h1 class="museum-title"><i data-lucide="landmark"></i> Metaverse Election Museum</h1>
-          <p class="museum-desc">Enter the immersive gallery to explore the history of democracy.</p>
-        </div>
-        <div class="museum-gallery-wrapper">
-          <button class="gallery-nav prev" id="galleryPrev">‹</button>
-          <div class="museum-gallery" id="museumGallery"></div>
-          <button class="gallery-nav next" id="galleryNext">›</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- EVENTS PAGE -->
-    <section class="page" id="page-events">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="tent"></i> Live Election Events</h1>
-        <p class="page-desc">Cultural performances, speeches, and full-day awareness programs.</p>
-      </div>
-      <div class="events-feed" id="eventsFeed"></div>
-    </section>
-
-    <!-- DASHBOARD PAGE -->
-    <section class="page" id="page-dashboard">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="layout-dashboard"></i> Your Dashboard</h1>
-        <p class="page-desc">Track your election readiness</p>
-      </div>
-      <div class="dashboard-grid">
-        <div class="dash-card readiness-card">
-          <h3><i data-lucide="target"></i> Election Readiness</h3>
-          <div class="readiness-ring">
-            <svg viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="50" class="ring-bg" />
-              <circle cx="60" cy="60" r="50" class="ring-fill" id="readinessRing" />
-            </svg>
-            <span class="readiness-pct" id="readinessPct">0%</span>
-          </div>
-          <p class="readiness-label">Complete more steps to increase!</p>
-        </div>
-        <div class="dash-card">
-          <h3><i data-lucide="clipboard-list"></i> Wizard Progress</h3>
-          <div class="dash-stat" id="dashWizardStat">0 / 0 steps</div>
-          <div class="mini-progress"><div class="mini-fill" id="dashWizardFill"></div></div>
-        </div>
-        <div class="dash-card">
-          <h3><i data-lucide="brain"></i> Quiz Best Score</h3>
-          <div class="dash-stat" id="dashQuizStat">Not taken yet</div>
-          <div class="dash-sub" id="dashQuizSub">Take the quiz to see your score</div>
-        </div>
-        <div class="dash-card">
-          <h3><i data-lucide="globe"></i> Selected Region</h3>
-          <div class="dash-stat" id="dashRegion"> India</div>
-          <button class="btn btn-sm btn-outline" data-navigate="timeline">Change Region</button>
-        </div>
-        <div class="dash-card span-2">
-          <h3><i data-lucide="calendar"></i> Upcoming Deadlines</h3>
-          <div class="deadlines-list" id="deadlinesList"></div>
-        </div>
-        <div class="dash-card">
-          <h3><i data-lucide="message-circle"></i> Chat Sessions</h3>
-          <div class="dash-stat" id="dashChatStat">0 conversations</div>
-          <button class="btn btn-sm btn-primary" data-navigate="chat">Open AI Assistant</button>
-        </div>
-        <div class="dash-card pride-card span-2">
-          <div class="pride-content">
-            <h3> Civic Pride</h3>
-            <p>Show your commitment to democracy! Claim your digital indelible ink badge with the map of India.</p>
-            <button class="btn btn-primary" id="claimInkBtn">Claim Digital Ink</button>
-          </div>
-          <div class="pride-badge hidden" id="prideBadge">
-            <div class="ink-finger">
-              <div class="ink-mark"></div>
+        <div
+          id="mapContainer"
+          class="hidden"
+          style="
+            margin-bottom: 32px;
+            width: 100%;
+            height: 500px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            position: relative;
+          "
+        >
+          <div
+            id="mapLoading"
+            class="hidden"
+            style="
+              position: absolute;
+              inset: 0;
+              background: var(--bg-surface);
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              z-index: 10;
+            "
+          >
+            <div class="typing-indicator" style="display: flex">
+              <span></span><span></span><span></span>
             </div>
-            <div class="badge-text">I Pledged to Vote!</div>
+            <span style="margin-top: 16px; font-weight: 500; color: var(--primary)"
+              >Generating HD Map via Gemini API...</span
+            >
+          </div>
+          <iframe
+            id="mapFrame"
+            src=""
+            style="width: 100%; height: 100%; border: none; background: white"
+          ></iframe>
+        </div>
+        <div class="booth-grid" id="boothGrid"></div>
+      </section>
+
+      <!-- MUSEUM PAGE -->
+      <section class="page" id="page-museum">
+        <div class="museum-container">
+          <div class="museum-header">
+            <h1 class="museum-title"><i data-lucide="landmark"></i> Metaverse Election Museum</h1>
+            <p class="museum-desc">
+              Enter the immersive gallery to explore the history of democracy.
+            </p>
+          </div>
+          <div class="museum-gallery-wrapper">
+            <button class="gallery-nav prev" id="galleryPrev">‹</button>
+            <div class="museum-gallery" id="museumGallery"></div>
+            <button class="gallery-nav next" id="galleryNext">›</button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- FAQ PAGE -->
-    <section class="page" id="page-faq">
-      <div class="page-header">
-        <h1 class="page-title"><i data-lucide="help-circle"></i> Frequently Asked Questions</h1>
-        <p class="page-desc">Quick answers to common election questions</p>
-      </div>
-      <div class="faq-search">
-        <input type="text" class="faq-search-input" id="faqSearch" placeholder=" Search questions..." />
-      </div>
-      <div class="faq-categories">
-        <button class="faq-cat active" data-cat="all">All</button>
-        <button class="faq-cat" data-cat="registration">Registration</button>
-        <button class="faq-cat" data-cat="voting">Voting</button>
-        <button class="faq-cat" data-cat="documents">Documents</button>
-        <button class="faq-cat" data-cat="results">Results</button>
-      </div>
-      <div class="faq-list" id="faqList"></div>
-    </section>
+      <!-- EVENTS PAGE -->
+      <section class="page" id="page-events">
+        <div class="page-header">
+          <h1 class="page-title"><i data-lucide="tent"></i> Live Election Events</h1>
+          <p class="page-desc">Cultural performances, speeches, and full-day awareness programs.</p>
+        </div>
+        <div class="events-feed" id="eventsFeed"></div>
+      </section>
 
-  </main>
+      <!-- DASHBOARD PAGE -->
+      <section class="page" id="page-dashboard">
+        <div class="page-header">
+          <h1 class="page-title"><i data-lucide="layout-dashboard"></i> Your Dashboard</h1>
+          <p class="page-desc">Track your election readiness</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="dash-card readiness-card">
+            <h3><i data-lucide="target"></i> Election Readiness</h3>
+            <div class="readiness-ring">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" class="ring-bg" />
+                <circle cx="60" cy="60" r="50" class="ring-fill" id="readinessRing" />
+              </svg>
+              <span class="readiness-pct" id="readinessPct">0%</span>
+            </div>
+            <p class="readiness-label">Complete more steps to increase!</p>
+          </div>
+          <div class="dash-card">
+            <h3><i data-lucide="clipboard-list"></i> Wizard Progress</h3>
+            <div class="dash-stat" id="dashWizardStat">0 / 0 steps</div>
+            <div class="mini-progress"><div class="mini-fill" id="dashWizardFill"></div></div>
+          </div>
+          <div class="dash-card">
+            <h3><i data-lucide="brain"></i> Quiz Best Score</h3>
+            <div class="dash-stat" id="dashQuizStat">Not taken yet</div>
+            <div class="dash-sub" id="dashQuizSub">Take the quiz to see your score</div>
+          </div>
+          <div class="dash-card">
+            <h3><i data-lucide="globe"></i> Selected Region</h3>
+            <div class="dash-stat" id="dashRegion">India</div>
+            <button class="btn btn-sm btn-outline" data-navigate="timeline">Change Region</button>
+          </div>
+          <div class="dash-card span-2">
+            <h3><i data-lucide="calendar"></i> Upcoming Deadlines</h3>
+            <div class="deadlines-list" id="deadlinesList"></div>
+          </div>
+          <div class="dash-card">
+            <h3><i data-lucide="message-circle"></i> Chat Sessions</h3>
+            <div class="dash-stat" id="dashChatStat">0 conversations</div>
+            <button class="btn btn-sm btn-primary" data-navigate="chat">Open AI Assistant</button>
+          </div>
+          <div class="dash-card pride-card span-2">
+            <div class="pride-content">
+              <h3>Civic Pride</h3>
+              <p>
+                Show your commitment to democracy! Claim your digital indelible ink badge with the
+                map of India.
+              </p>
+              <button class="btn btn-primary" id="claimInkBtn">Claim Digital Ink</button>
+            </div>
+            <div class="pride-badge hidden" id="prideBadge">
+              <div class="ink-finger">
+                <div class="ink-mark"></div>
+              </div>
+              <div class="badge-text">I Pledged to Vote!</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <!-- Floating Chat Button -->
-  <button class="fab-chat" id="fabChat" aria-label="Open AI Assistant" data-navigate="chat">
-    <span class="fab-icon"><i data-lucide="message-circle"></i></span>
-    <span class="fab-pulse"></span>
-  </button>
+      <!-- FAQ PAGE -->
+      <section class="page" id="page-faq">
+        <div class="page-header">
+          <h1 class="page-title"><i data-lucide="help-circle"></i> Frequently Asked Questions</h1>
+          <p class="page-desc">Quick answers to common election questions</p>
+        </div>
+        <div class="faq-search">
+          <input
+            type="text"
+            class="faq-search-input"
+            id="faqSearch"
+            placeholder=" Search questions..."
+          />
+        </div>
+        <div class="faq-categories">
+          <button class="faq-cat active" data-cat="all">All</button>
+          <button class="faq-cat" data-cat="registration">Registration</button>
+          <button class="faq-cat" data-cat="voting">Voting</button>
+          <button class="faq-cat" data-cat="documents">Documents</button>
+          <button class="faq-cat" data-cat="results">Results</button>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+      </section>
+    </main>
 
-  <!-- Canvas for confetti -->
-  <canvas id="confettiCanvas"></canvas>
+    <!-- Floating Chat Button -->
+    <button class="fab-chat" id="fabChat" aria-label="Open AI Assistant" data-navigate="chat">
+      <span class="fab-icon"><i data-lucide="message-circle"></i></span>
+      <span class="fab-pulse"></span>
+    </button>
 
-  <!-- Scripts -->
-  <script type="module" src="/js/app.js"></script>
-  <script>lucide.createIcons();</script>
-  <script>
-    // Register Service Worker for PWA offline support
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('[SW] Registered:', reg.scope))
-          .catch(err => console.warn('[SW] Registration failed:', err));
-      });
-    }
-  </script>
-</body>
+    <!-- Canvas for confetti -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/app.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    <script>
+      // Register Service Worker for PWA offline support
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/sw.js')
+            .then((reg) => console.log('[SW] Registered:', reg.scope))
+            .catch((err) => console.warn('[SW] Registration failed:', err));
+        });
+      }
+    </script>
+  </body>
 </html>

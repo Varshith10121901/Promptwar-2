@@ -9,13 +9,17 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint js/ --ext .js"
+    "lint": "eslint js/ --ext .js",
+    "format": "prettier --write \"js/**/*.js\" \"css/**/*.css\" \"*.html\"",
+    "prepare": "husky"
   },
   "devDependencies": {
     "vite": "^6.3.0",
     "vitest": "^1.6.0",
     "@vitest/coverage-v8": "^1.6.0",
     "jsdom": "^24.0.0",
-    "eslint": "^8.57.0"
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11"
   }
 }
