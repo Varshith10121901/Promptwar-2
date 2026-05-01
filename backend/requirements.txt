@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+folium
+google-generativeai
+pydantic
