@@ -1,30 +1,34 @@
-# Stage 1: Build the application
-FROM node:20-alpine as build
+# ─────────────────────────────────────────────
+# Stage 1: Build the Vite frontend
+# ─────────────────────────────────────────────
+FROM node:20-alpine AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy dependency manifests first (leverages Docker layer cache)
 COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
+# Copy all source files
 COPY . .
 
-# Build the Vite application
+# Build production bundle (outputs to /app/dist)
 RUN npm run build
 
-# Stage 2: Serve the application with Nginx
-FROM nginx:alpine
+# ─────────────────────────────────────────────
+# Stage 2: Serve with Nginx (minimal alpine image)
+# ─────────────────────────────────────────────
+FROM nginx:alpine AS production
 
-# Copy the build output to replace the default nginx contents.
-# Vite outputs to the 'dist' folder by default.
+# Remove default Nginx page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy compiled frontend from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 80
+# Copy custom Nginx config for SPA routing + compression
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
