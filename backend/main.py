@@ -67,13 +67,13 @@ class LocationRequest(BaseModel):
 # ─────────────────────────────────────────────
 def fetch_polling_stations(location: str) -> list:
     """
-    Uses Gemini 1.5 Flash to generate realistic nearby polling station
+    Uses Gemini 2.5 Flash to generate realistic nearby polling station
     coordinates for the given location.
 
     Returns:
         List of dicts with keys: name, lat, lon
     """
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.5-flash")
     prompt = (
         f'You are an expert Indian geographer and election official. '
         f'The user is located near "{location}". '

@@ -5,7 +5,7 @@
 
 **Built for Electhon '23 | Powered by Google Gemini AI**
 
-[![Gemini AI](https://img.shields.io/badge/Google%20Gemini-1.5%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![Gemini AI](https://img.shields.io/badge/Google%20Gemini-2.5%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -34,12 +34,12 @@ Code Quality, Security, Efficiency, Testing, Accessibility, and Google Services.
 
 > **This is not a demo integration. Google services are used throughout the core data pipeline, UI layer, and deployment infrastructure.**
 
-### Google Gemini 1.5 Flash (Dynamic Map Intelligence)
+### Google Gemini 2.5 Flash (Dynamic Map Intelligence)
 The AI backbone of VoteWise. Used in `backend/main.py` to generate contextual polling station coordinates on demand.
 
 ```python
 # backend/main.py
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash')
 prompt = f"""
 Provide 5 realistic polling stations near "{location}" as a JSON array.
 Include: name, lat, lon for each station.
@@ -161,7 +161,7 @@ frame.src = URL.createObjectURL(blob); // Zero extra server round-trips
 ```
 
 **Backend Performance:**
-- **Gemini 1.5 Flash**: The fastest Gemini model is used — optimized for low-latency, high-frequency tasks like location lookups.
+- **Gemini 2.5 Flash**: The latest and fastest Gemini model is used — optimized for low-latency, high-frequency tasks like location lookups.
 - **Multi-stage Docker Build**: The frontend Dockerfile uses a `node:20-alpine` build stage and discards all dev dependencies before copying only the compiled `dist/` output to an Nginx alpine image — resulting in a ~20MB final image.
 
 ---
@@ -260,7 +260,7 @@ sequenceDiagram
     participant U as User
     participant F as Frontend (app.js)
     participant B as Backend (FastAPI)
-    participant G as Google Gemini 1.5 Flash
+    participant G as Google Gemini 2.5 Flash
 
     U->>F: Open App
     F->>F: Check localStorage for session
