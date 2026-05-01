@@ -8,6 +8,8 @@
 [![Gemini AI](https://img.shields.io/badge/Google%20Gemini-2.5%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Vitest](https://img.shields.io/badge/Vitest-Testing-729B1B?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Hosting-FFCA28?style=for-the-badge&logo=firebase&logoColor=white)](https://firebase.google.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 > A production-grade Progressive Web App (PWA) that simplifies elections for every citizen — from onboarding to the polling booth, guided by real-time Gemini AI.
@@ -65,8 +67,8 @@ The project is fully containerized and architected for **Google Cloud Run** depl
 
 | Component | Service |
 |---|---|
-| Frontend (Vite + Nginx) | Cloud Run (via Docker) |
-| Backend (FastAPI) | Cloud Run (via Docker) |
+| Frontend (Vite + Nginx) | Firebase Hosting (with Cloud Run rewrite) |
+| Backend (FastAPI) | Google Cloud Run |
 | Real-time Booth Data | Firebase Firestore (roadmap) |
 | User Authentication | Firebase Auth (roadmap) |
 
@@ -83,7 +85,10 @@ The codebase is architected for **long-term maintainability** with strict separa
 
 ```
 js/
-├── app.js          # Core: Routing, State, Event Handlers, API Calls
+├── app.js          # Core: Orchestrator that binds modules together
+├── state.js        # State: Centralized state management with EventListeners
+├── router.js       # Router: SPA hash routing with Auth Guards
+├── api.js          # Network: Centralized, sanitized backend fetch calls
 ├── data.js         # Data Layer: All mock data (timelines, FAQs, booths, museum)
 └── confetti.js     # Isolated: Confetti animation module
 css/
@@ -170,14 +175,17 @@ frame.src = URL.createObjectURL(blob); // Zero extra server round-trips
 
 Functionality is validated at multiple levels to ensure reliability.
 
-**Frontend Validation:**
-- Hash-based router is tested for all 9 navigation states (home, timeline, wizard, chat, quiz, booths, museum, events, faq).
-- Login form uses native HTML5 `required` validation on all three fields before state is committed.
-- Map error states are handled gracefully: if the backend is unreachable, the iframe is hidden and the user receives a clear, actionable error message.
+**Frontend Validation (`vitest`):**
+- **State Tests (`state.test.js`)**: 15 test cases validating authentication, location updates, quiz scoring, and reactive `stateChange` events.
+- **API Tests (`api.test.js`)**: 9 test cases mocking `fetch` to validate sanitization, error throwing, and prompt-injection guard logic.
 
-**Backend Validation:**
-- Gemini response text is sanitized to strip markdown code fences before `json.loads()` is called, preventing parse errors from model formatting decisions.
-- A fallback empty array is returned if coordinates cannot be extracted, preventing a 500 crash.
+**Backend Validation (`pytest`):**
+- **Endpoint Tests (`test_map_endpoint.py`)**: 9 test cases validating the FastAPI endpoints, including mocked Gemini responses to guarantee stable CI runs.
+- **Schema Tests (`test_schemas.py`)**: 9 unit tests validating Pydantic model behaviors and sanitization functions.
+
+**CI/CD Pipeline (GitHub Actions):**
+- Automated workflows (`.github/workflows/ci.yml` & `deploy.yml`) run linting (`eslint`), tests (`vitest` & `pytest`), and Docker build checks.
+- Successful builds automatically push to **Google Artifact Registry** and deploy to **Cloud Run** and **Firebase Hosting**.
 
 ```python
 # Sanitize before parsing — never trust raw model output format
@@ -237,19 +245,23 @@ VoteWise is built to be inclusive by default — not as a compliance checkbox.
 
 ```mermaid
 graph TD
-    Root[VoteWise Project Root] --> Compose[docker-compose.yml]
+    Root[VoteWise Root] --> GitHub[.github/workflows/deploy.yml]
     Root --> GitIgnore[.gitignore]
-    Root --> FrontendDir[Frontend Code]
+    Root --> FrontendDir[Frontend]
     Root --> BackendDir[Backend /backend]
+    Root --> TestsDir[Tests /tests]
 
     FrontendDir --> Index[index.html]
-    FrontendDir --> CSSDir[css/]
+    FrontendDir --> Public[public/sw.js & manifest.json]
     FrontendDir --> JSDir[js/]
     
     JSDir --> AppJS[app.js]
-    JSDir --> DataJS[data.js]
+    JSDir --> StateJS[state.js]
+    JSDir --> RouterJS[router.js]
+    JSDir --> ApiJS[api.js]
     
     BackendDir --> MainPy[main.py]
+    BackendDir --> PyTests[tests/]
     BackendDir --> BackDocker[Dockerfile]
 ```
 
