@@ -4,6 +4,7 @@ import { initConfetti } from './confetti.js';
 document.addEventListener('DOMContentLoaded', () => {
   // --- STATE ---
   const state = {
+    user: JSON.parse(localStorage.getItem('vw_user')) || null,
     region: localStorage.getItem('vw_region') || 'india',
     theme: localStorage.getItem('vw_theme') || 'light',
     wizardProgress: JSON.parse(localStorage.getItem('vw_wizard')) || {},
@@ -524,6 +525,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(!btn) return;
 
+    // Auto-fill location if user is logged in
+    if (state.user && state.user.location && !input.value) {
+      input.value = state.user.location;
+    }
+
     btn.addEventListener('click', async () => {
       const loc = input.value.trim();
       if(!loc) return alert("Please enter a location first.");
@@ -557,7 +563,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function initLogin() {
+    const loginForm = document.getElementById('loginForm');
+    if (!loginForm) return;
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const location = document.getElementById('userLocation').value;
+
+      const user = { name, email, location };
+      state.user = user;
+      localStorage.setItem('vw_user', JSON.stringify(user));
+
+      document.body.classList.remove('is-logged-out');
+      
+      // Navigate to home or dashboard
+      navigate('home');
+      
+      // Update map input if it exists
+      const mapInput = document.getElementById('mapLocationInput');
+      if (mapInput) mapInput.value = location;
+      
+      confetti?.fire();
+    });
+
+    // Check session
+    if (!state.user) {
+      document.body.classList.add('is-logged-out');
+      navigate('login');
+    } else {
+      document.body.classList.remove('is-logged-out');
+      if (window.location.hash === '#login') navigate('home');
+    }
+  }
+
   // --- INITIALIZATION ---
+  initLogin();
   initMap();
   renderTimeline();
   renderWizard();
