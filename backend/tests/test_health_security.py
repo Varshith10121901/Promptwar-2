@@ -1,7 +1,6 @@
 """
 Additional backend tests for health endpoint and security.
 """
-import pytest
 
 
 class TestHealthEndpoint:

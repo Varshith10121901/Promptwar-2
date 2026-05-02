@@ -228,7 +228,7 @@ def fetch_polling_stations(location: str) -> list[dict[str, Any]]:
         # Sanitize markdown wrappers if present
         for prefix in ["```json", "```"]:
             if text.startswith(prefix):
-                text = text[len(prefix) :]
+                text = text[len(prefix):]
         if text.endswith("```"):
             text = text[:-3]
 

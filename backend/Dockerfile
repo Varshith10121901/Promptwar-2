@@ -1,3 +1,15 @@
+# ─────────────────────────────────────────────
+# VoteWise Backend Dockerfile (v2.1.0)
+#
+# Python 3.12 slim with:
+#   - Non-root user (appuser, no login shell)
+#   - __pycache__ cleanup for smaller image
+#   - Docker HEALTHCHECK on /health endpoint
+#   - 2 Uvicorn workers for concurrent requests
+#
+# Security: non-root, no cache, minimal attack surface
+# ─────────────────────────────────────────────
+
 FROM python:3.12-slim AS base
 
 # ─── Metadata ───

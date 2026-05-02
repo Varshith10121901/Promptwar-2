@@ -2,9 +2,7 @@
 Tests for the /api/generate_map FastAPI endpoint.
 Covers: success path, validation errors, Gemini failures.
 """
-import pytest
 from unittest.mock import patch, MagicMock
-import json
 
 
 class TestHealthEndpoint:
