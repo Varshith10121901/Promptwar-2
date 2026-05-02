@@ -18,7 +18,7 @@ WORKDIR /app
 
 # Copy dependency manifests first (Docker layer cache)
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Copy source files and build
 COPY . .

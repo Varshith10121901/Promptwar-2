@@ -2,25 +2,42 @@
 
 All notable changes to VoteWise are documented in this file.
 
-## [2.1.0] — 2026-05-02
+## [2.1.0] — 2026-05-02 (GOD MODE Release)
 
 ### Added
+- **`js/constants.js`**: Centralized constants module — zero magic numbers across codebase.
+- **Full JSDoc**: `@module`, `@version 2.1.0`, `@license MIT` on all 16 JS modules.
+- **TypeDefs**: `@typedef` for `User`, `AppState`, `Particle`, `TimelineEvent`, `WizardStep`, `RegionData`.
+- **`clearState()`**: New state export for complete session reset.
+- **`getCurrentUserId()`**: New state export for Firebase UID retrieval.
+- **`safeJsonParse()`**: Crash-proof localStorage reads in state.js.
+- **`HealthResponse` / `MapErrorResponse`**: Pydantic response models for OpenAPI docs.
+- **`test_map_rendering.py`**: 9 new backend tests for Folium map rendering.
+- **`pyproject.toml`**: Backend pytest + coverage configuration.
+- **ESLint step**: Added to CI pipeline for frontend quality gate.
 - **Google Sign-In**: Full Firebase Auth with Google popup login.
-- **Cloud Functions**: Gemini-powered `generateVotingSummary` endpoint.
+- **Cloud Functions**: Gemini-powered `generateVotingSummary` with `safeDocRead()` helper.
 - **Firestore Persistence**: Quiz scores, wizard progress, and user profiles synced to cloud.
 - **Firestore Security Rules**: Users can only read/write their own data.
-- **Auth State Listener**: Auto-login for returning authenticated users.
-- **Chat module tests**: 12 new tests covering message rendering, FAQ matching, accessibility.
-- **Firestore CRUD tests**: 18 new tests for profile, quiz, wizard persistence.
-- **Google Sign-In button**: SVG Google logo with dark mode support.
 
 ### Changed
-- `firebase.js` upgraded from anonymous-only to Google Sign-In + anonymous fallback.
-- `app.js` now syncs quiz/wizard changes to Firestore in real-time via stateChange events.
-- `firebase.json` updated with Cloud Functions and Firestore configuration.
-- Service worker bumped to v3 with all 15 JS modules cached.
-- Total Google Cloud services: **9** (was 8).
-- Total tests: **~70** (was ~42).
+- Backend `main.py` upgraded to v2.1.0 with full type hints and constants extraction.
+- Cloud Functions refactored with `Promise.all()` parallel reads and extracted helpers.
+- Service worker bumped to **v4** with 16 cached modules (including constants.js).
+- Frontend tests expanded: **76 tests** (was 67) — added clearState, getCurrentUserId, input validation.
+- Backend tests expanded: **38 tests** (was 30) — added map rendering suite.
+- Backend coverage: **96%** with `--cov-fail-under=85` gate.
+- Total tests: **114** (76 frontend + 38 backend).
+- Docker frontend: fixed `npm ci --omit=dev` → `npm ci` (vite needed for build).
+- Package version bumped to **2.1.0**.
+- CI pipeline: flake8 lint errors fixed (E203, F401, E303).
+- Deploy pipeline: real Firebase project ID (`promptwar2-ecd91`).
+
+### Security
+- Input validation: `setRegion()` throws on invalid, `toggleWizardStep()` guards null.
+- `setTheme()` normalizes invalid values to 'light'.
+- `addChatEntry()` rejects empty inputs.
+- Sidebar ARIA: `role="navigation"` + `aria-label="Main navigation"`.
 
 
 ## [2.0.0] — 2026-05-02
