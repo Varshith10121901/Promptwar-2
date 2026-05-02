@@ -18,7 +18,10 @@ import { faqs } from './data.js';
  */
 export function renderFaqs(category, searchQuery = '') {
   const container = document.getElementById('faqList');
-  if (!container) {return;}
+  if (!container) { return; }
+
+  container.setAttribute('role', 'list');
+  container.setAttribute('aria-label', 'Frequently asked questions');
 
   const filtered = faqs.filter((f) => {
     const matchesCat = category === 'all' || f.category === category;
@@ -29,14 +32,14 @@ export function renderFaqs(category, searchQuery = '') {
   });
 
   if (filtered.length === 0) {
-    container.innerHTML = '<p class="text-muted">No results found.</p>';
+    container.innerHTML = '<p class="text-muted" role="status">No results found.</p>';
     return;
   }
 
   container.innerHTML = filtered
     .map(
       (f) => `
-    <div class="faq-card">
+    <div class="faq-card" role="article" aria-label="${f.q}">
       <h3>${f.q}</h3>
       <p>${f.a}</p>
     </div>

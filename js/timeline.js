@@ -11,6 +11,7 @@
 
 import { electionData } from './data.js';
 import { state, setRegion } from './state.js';
+import { COUNTDOWN_INTERVAL_MS } from './constants.js';
 
 /**
  * Renders the election timeline based on current region and view mode.
@@ -25,10 +26,13 @@ export function renderTimeline() {
   const container = document.getElementById('timelineContainer');
   if (container) {
     container.className = `timeline-container ${state.timelineView}`;
+    container.setAttribute('role', 'list');
+    container.setAttribute('aria-label', 'Election timeline events');
     container.innerHTML = data.timeline
       .map(
         (item) => `
-      <div class="timeline-card ${item.passed ? 'passed' : item.upcoming ? 'upcoming' : ''}">
+      <div class="timeline-card ${item.passed ? 'passed' : item.upcoming ? 'upcoming' : ''}"
+           role="listitem" aria-label="${item.title} — ${item.date}">
         <div class="tl-date">${item.date}</div>
         <h3 class="tl-title">${item.title}</h3>
         <p class="tl-desc">${item.desc}</p>
@@ -71,7 +75,7 @@ export function initCountdown() {
       <div class="timer-block"><span class="timer-val">${h}</span><span class="timer-lbl">Hrs</span></div>
       <div class="timer-block"><span class="timer-val">${m}</span><span class="timer-lbl">Min</span></div>
     `;
-  }, 1000);
+  }, COUNTDOWN_INTERVAL_MS);
 }
 
 /**
