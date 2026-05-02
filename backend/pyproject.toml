@@ -1,0 +1,18 @@
+[project]
+name = "votewise-backend"
+version = "2.1.0"
+description = "VoteWise Map API — Gemini-powered election zone map generator"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short --strict-markers"
+
+[tool.coverage.run]
+source = ["."]
+omit = ["tests/*", "__pycache__/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 85

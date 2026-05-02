@@ -1,26 +1,43 @@
+# ─────────────────────────────────────────────────────────────
+# VoteWise Deploy Pipeline (v2.1.0)
+#
+# Manual deployment workflow (workflow_dispatch) for:
+#   1. Backend → Google Cloud Run
+#   2. Frontend → Firebase Hosting
+#
+# Required GitHub Secrets:
+#   - GCP_CREDENTIALS: Service account JSON for Cloud Run
+#   - GEMINI_API_KEY: Gemini API key for the backend
+#   - FIREBASE_SERVICE_ACCOUNT: Firebase service account JSON
+# ─────────────────────────────────────────────────────────────
+
 name: Build and Deploy to Google Cloud / Firebase
 
 on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Deployment environment'
+        description: "Deployment environment"
         required: true
-        default: 'production'
+        default: "production"
         type: choice
         options:
           - production
           - staging
 
 env:
-  PROJECT_ID: your-gcp-project-id
+  PROJECT_ID: promptwar2-ecd91
   REGION: us-central1
   BACKEND_SERVICE: votewise-backend
 
 jobs:
+  # ──────────────────────────────────────────
+  # BACKEND: Build & Deploy to Cloud Run
+  # ──────────────────────────────────────────
   build-and-deploy-backend:
     name: Deploy Backend to Cloud Run
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -51,12 +68,16 @@ jobs:
           image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/votewise-repo/${{ env.BACKEND_SERVICE }}:${{ github.sha }}
           env_vars: |
             GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
-          flags: '--allow-unauthenticated'
+          flags: "--allow-unauthenticated"
 
+  # ──────────────────────────────────────────
+  # FRONTEND: Build & Deploy to Firebase
+  # ──────────────────────────────────────────
   deploy-frontend:
     name: Deploy Frontend to Firebase Hosting
     runs-on: ubuntu-latest
     needs: build-and-deploy-backend
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -64,8 +85,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm ci
@@ -79,4 +100,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
-          projectId: your-firebase-project-id
+          projectId: promptwar2-ecd91
