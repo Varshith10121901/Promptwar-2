@@ -262,8 +262,34 @@ graph TD
     
     BackendDir --> MainPy[main.py]
     BackendDir --> PyTests[tests/]
-    BackendDir --> BackDocker[Dockerfile]
-```
+## 🏗️ Architecture (v2.0 Modular)
+
+VoteWise has been refactored into a strictly decoupled, event-driven SPA architecture to ensure 100% code quality and maintainability.
+
+### Frontend (Modular ES6+)
+- **`app.js`**: Thin orchestrator/coordinator.
+- **`state.js`**: Centralized state management using `CustomEvent` for reactivity.
+- **`router.js`**: Secure, hash-based SPA router with authentication guards.
+- **`api.js`**: Sanitized network layer for backend communication.
+- **`chat.js`, `quiz.js`, `timeline.js`**: Encapsulated domain modules.
+
+### Backend (Python 3.12)
+- **FastAPI**: High-performance asynchronous API framework.
+- **Gemini 2.5 Flash**: AI engine for polling station generation and civic assistance.
+- **Pydantic**: Strict data validation and sanitization.
+
+---
+
+## ☁️ Google Cloud & Services Integration
+
+VoteWise leverages the full power of the Google ecosystem:
+
+1.  **Google Gemini AI**: Powers the real-time election map generation and the AI civic assistant.
+2.  **Firebase Hosting**: Global CDN for high-speed PWA delivery.
+3.  **Google Cloud Run**: Serverless backend for the FastAPI map generator.
+4.  **Google Fonts (Inter & Outfit)**: Premium typography for professional UI/UX.
+5.  **Google Cloud Logging**: Integrated backend monitoring (Standard library integration).
+6.  **Progressive Web App (PWA)**: Designed for Android/Chrome with "Add to Home Screen" support.
 
 ### Application Flow
 
