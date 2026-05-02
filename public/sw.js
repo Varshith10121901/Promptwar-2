@@ -1,7 +1,7 @@
 // Phase 4: Service Worker using Workbox strategies
 // Provides offline support and aggressive caching for the PWA
 
-const CACHE_NAME = 'votewise-v1';
+const CACHE_NAME = 'votewise-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -13,6 +13,13 @@ const STATIC_ASSETS = [
   '/js/api.js',
   '/js/router.js',
   '/js/confetti.js',
+  '/js/chat.js',
+  '/js/quiz.js',
+  '/js/timeline.js',
+  '/js/wizard.js',
+  '/js/dashboard.js',
+  '/js/faq.js',
+  '/js/components.js',
   '/manifest.json',
 ];
 
