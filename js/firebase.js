@@ -11,6 +11,7 @@
  *
  * @module firebase
  * @version 2.1.0
+ * @license MIT
  * @see https://firebase.google.com/docs/web/setup
  */
 

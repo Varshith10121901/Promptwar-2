@@ -10,7 +10,7 @@
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB.svg?logo=python)](https://python.org)
 [![Firebase](https://img.shields.io/badge/Firebase-Integrated-FFCA28.svg?logo=firebase)](https://firebase.google.com)
 [![Gemini AI](https://img.shields.io/badge/Gemini_2.5-Flash-4285F4.svg?logo=google)](https://ai.google.dev)
-[![Tests](https://img.shields.io/badge/Tests-114_passing-34A853.svg)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-132_passing-34A853.svg)](tests/)
 [![Vulnerabilities](https://img.shields.io/badge/Vulnerabilities-0-34A853.svg)](package.json)
 
 </div>
@@ -39,7 +39,7 @@ VoteWise is a **Progressive Web Application (PWA)** that empowers citizens to na
 | **Code Quality** | 100% (0 ESLint errors, 0 flake8 errors, constants module, full JSDoc) |
 | **Security** | 100% (CSP, non-root Docker, prompt injection guards, Bandit scan) |
 | **Efficiency** | 100% (Lazy loading, async/await, service worker caching) |
-| **Testing** | 100% (114 tests, 76 frontend + 38 backend, 96% coverage) |
+| **Testing** | 100% (132 tests, 94 frontend + 38 backend, 96% coverage) |
 | **Accessibility** | 100% (ARIA, skip-nav, focus management, keyboard support) |
 | **Google Services** | 100% (9 services fully integrated) |
 | **npm audit** | **0 vulnerabilities** |
@@ -185,7 +185,7 @@ POST /api/summary { uid: "firebase-uid" }
 
 ## 🧪 Testing
 
-### Frontend — Vitest + jsdom (76 tests)
+### Frontend — Vitest + jsdom (94 tests)
 
 | Suite | File | Tests | Coverage |
 |-------|------|-------|----------|
@@ -195,9 +195,11 @@ POST /api/summary { uid: "firebase-uid" }
 | API Layer | `tests/api.test.js` | 9 | Fetch wrapper, prompt injection, sanitization |
 | Analytics | `tests/analytics.test.js` | 8 | GA4 init, page views, events, timing |
 | Router | `tests/router.test.js` | 4 | Navigation, auth guard, hashchange |
+| Quiz | `tests/quiz.test.js` | 15 | Rendering, scoring, ARIA, keyboard, init |
+| Confetti | `tests/confetti.test.js` | 3 | Init, fire(), null-safety |
 
 ```bash
-npm run test           # 76 tests, ~1.5s
+npm run test           # 94 tests, ~1.8s
 npm run test:coverage  # Coverage report with V8 provider
 ```
 
@@ -347,13 +349,15 @@ D:\Hackathons\Promptwar 2\
 │   ├── sw.js                       # Service Worker v4 (16 cached modules)
 │   └── manifest.json               # PWA manifest
 │
-├── 🧪 tests/ (6 suites, 76 tests)
+├── 🧪 tests/ (8 suites, 94 tests)
 │   ├── state.test.js               # 24 tests — state management + clearState
 │   ├── firebase.test.js            # 18 tests — Auth, Firestore CRUD
 │   ├── chat.test.js                # 13 tests — messages, FAQ, ARIA
 │   ├── api.test.js                 #  9 tests — fetch, injection guard
 │   ├── analytics.test.js           #  8 tests — GA4 init, events
-│   └── router.test.js              #  4 tests — navigation, auth
+│   ├── router.test.js              #  4 tests — navigation, auth
+│   ├── quiz.test.js                # 15 tests — rendering, scoring, ARIA
+│   └── confetti.test.js            #  3 tests — init, fire, null-safety
 │
 ├── ⚡ functions/ (Cloud Functions)
 │   ├── index.js                    # generateVotingSummary + onUserCreated
@@ -392,7 +396,7 @@ D:\Hackathons\Promptwar 2\
 | Job | Tools | What it Checks |
 |-----|-------|----------------|
 | **Frontend Lint** | ESLint v9 | JavaScript code quality + security rules |
-| **Frontend Tests** | Vitest | 76 unit tests with jsdom |
+| **Frontend Tests** | Vitest | 94 unit tests with jsdom |
 | **Backend Lint** | flake8 | Python style (100-char lines) |
 | **Backend Security** | Bandit | Static security analysis (skip B104/B101) |
 | **Backend Tests** | pytest + coverage | 70%+ coverage gate, 38 tests |
@@ -419,7 +423,7 @@ D:\Hackathons\Promptwar 2\
 | **Fonts** | Google Fonts (Inter, Google Sans) |
 | **Containers** | Docker, Docker Compose, Nginx |
 | **CI/CD** | GitHub Actions (3 jobs: backend, frontend, docker) |
-| **Testing** | Vitest (76), pytest (38), Bandit, ESLint v9 |
+| **Testing** | Vitest (94), pytest (38), Bandit, ESLint v9 |
 
 ---
 
@@ -435,6 +439,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 *Gemini AI • Firebase Auth • Cloud Firestore • Cloud Functions • Google Analytics • Firebase Performance • Firebase Hosting • Cloud Run • Google Fonts*
 
-**114 tests • 96% backend coverage • 0 vulnerabilities • 0 lint errors**
+**132 tests • 96% backend coverage • 0 vulnerabilities • 0 lint errors**
 
 </div>

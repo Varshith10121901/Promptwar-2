@@ -35,15 +35,23 @@ export function navigate(pageId) {
 
   document.querySelectorAll('.nav-item').forEach((n) => {
     n.classList.remove('active');
-    if (n.dataset.page === pageId) {n.classList.add('active');}
+    n.removeAttribute('aria-current');
+    if (n.dataset.page === pageId) {
+      n.classList.add('active');
+      n.setAttribute('aria-current', 'page');
+    }
   });
 
   // Close mobile sidebar on navigation
   document.getElementById('sidebar')?.classList.remove('open');
 
+  // Focus management: move focus to the page content
+  const pageContent = document.getElementById(`page-${pageId}`);
+  if (pageContent) { pageContent.focus({ preventScroll: false }); }
+
   // Announce navigation to screen readers
   const ariaLive = document.getElementById('ariaLive');
-  if (ariaLive) {ariaLive.textContent = `Navigated to ${pageId} page`;}
+  if (ariaLive) { ariaLive.textContent = `Navigated to ${pageId} page`; }
 }
 
 /**

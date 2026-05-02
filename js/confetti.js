@@ -40,10 +40,14 @@ const COLORS = ['#1A73E8', '#34A853', '#FBBC05', '#EA4335', '#8AB4F8'];
 export function initConfetti() {
   const canvas = document.getElementById('confettiCanvas');
   if (!canvas) {
-    return undefined;
+    return { fire: () => {} };
   }
 
   const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    return { fire: () => {} };
+  }
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
