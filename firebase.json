@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/api/summary",
+        "function": "generateVotingSummary"
+      },
+      {
         "source": "/api/**",
         "run": {
           "serviceId": "votewise-backend",
@@ -30,5 +34,13 @@
         ]
       }
     ]
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

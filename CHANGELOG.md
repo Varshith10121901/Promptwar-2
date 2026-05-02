@@ -2,6 +2,27 @@
 
 All notable changes to VoteWise are documented in this file.
 
+## [2.1.0] — 2026-05-02
+
+### Added
+- **Google Sign-In**: Full Firebase Auth with Google popup login.
+- **Cloud Functions**: Gemini-powered `generateVotingSummary` endpoint.
+- **Firestore Persistence**: Quiz scores, wizard progress, and user profiles synced to cloud.
+- **Firestore Security Rules**: Users can only read/write their own data.
+- **Auth State Listener**: Auto-login for returning authenticated users.
+- **Chat module tests**: 12 new tests covering message rendering, FAQ matching, accessibility.
+- **Firestore CRUD tests**: 18 new tests for profile, quiz, wizard persistence.
+- **Google Sign-In button**: SVG Google logo with dark mode support.
+
+### Changed
+- `firebase.js` upgraded from anonymous-only to Google Sign-In + anonymous fallback.
+- `app.js` now syncs quiz/wizard changes to Firestore in real-time via stateChange events.
+- `firebase.json` updated with Cloud Functions and Firestore configuration.
+- Service worker bumped to v3 with all 15 JS modules cached.
+- Total Google Cloud services: **9** (was 8).
+- Total tests: **~70** (was ~42).
+
+
 ## [2.0.0] — 2026-05-02
 
 ### Added

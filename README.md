@@ -48,10 +48,13 @@ VoteWise uses a strictly decoupled, event-driven SPA architecture designed for m
        │  │  Flash API     │ │
        │  └────────────────┘ │
        │  ┌────────────────┐ │
-       │  │ Firebase Auth  │ │  ← Anonymous Auth
+       │  │ Firebase Auth  │ │  ← Google Sign-In + Anon
        │  └────────────────┘ │
        │  ┌────────────────┐ │
        │  │  Firestore DB  │ │  ← Cloud Persistence
+       │  └────────────────┘ │
+       │  ┌────────────────┐ │
+       │  │Cloud Functions │ │  ← Gemini Summary API
        │  └────────────────┘ │
        │  ┌────────────────┐ │
        │  │ GA4 Analytics  │ │  ← Usage Tracking
@@ -80,13 +83,14 @@ VoteWise leverages **8 Google Cloud services** for a fully cloud-native architec
 | # | Service | Purpose | Module |
 |---|---------|---------|--------|
 | 1 | **Google Gemini 2.5 Flash** | AI-powered polling station generation & civic assistant | `backend/main.py` |
-| 2 | **Firebase Authentication** | Anonymous user sessions for secure data access | `js/firebase.js` |
-| 3 | **Cloud Firestore** | Real-time cloud database with offline persistence | `js/firebase.js` |
-| 4 | **Google Analytics 4** | Page view tracking, event analytics, user engagement | `js/analytics.js` |
-| 5 | **Firebase Performance** | Automatic performance monitoring & Web Vitals | `js/firebase.js` |
-| 6 | **Firebase Hosting** | Global CDN deployment for the PWA frontend | `firebase.json` |
-| 7 | **Google Cloud Run** | Serverless container hosting for FastAPI backend | `.github/workflows/deploy.yml` |
-| 8 | **Google Fonts** | Premium typography (Inter, Google Sans) | `index.html` |
+| 2 | **Firebase Authentication** | Google Sign-In + Anonymous auth for secure sessions | `js/firebase.js` |
+| 3 | **Cloud Firestore** | User profiles, quiz scores, wizard progress persistence | `js/firebase.js` |
+| 4 | **Cloud Functions** | Gemini-powered personalized voting summary generation | `functions/index.js` |
+| 5 | **Google Analytics 4** | Page view tracking, event analytics, user engagement | `js/analytics.js` |
+| 6 | **Firebase Performance** | Automatic performance monitoring & Web Vitals | `js/firebase.js` |
+| 7 | **Firebase Hosting** | Global CDN deployment for the PWA frontend | `firebase.json` |
+| 8 | **Google Cloud Run** | Serverless container hosting for FastAPI backend | `.github/workflows/deploy.yml` |
+| 9 | **Google Fonts** | Premium typography (Inter, Google Sans) | `index.html` |
 
 ---
 
