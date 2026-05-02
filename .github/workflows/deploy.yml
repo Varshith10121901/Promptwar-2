@@ -1,9 +1,16 @@
 name: Build and Deploy to Google Cloud / Firebase
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
 
 env:
   PROJECT_ID: your-gcp-project-id
