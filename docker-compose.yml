@@ -3,6 +3,7 @@ version: '3.8'
 services:
   # ─────────────────────────────────────────────
   # Frontend: Vite PWA served via Nginx
+  # Built with Node 22, served from nginx:stable-alpine
   # ─────────────────────────────────────────────
   frontend:
     build:
@@ -19,7 +20,8 @@ services:
       - NODE_ENV=production
 
   # ─────────────────────────────────────────────
-  # Backend: FastAPI + Gemini Map Generator
+  # Backend: FastAPI + Gemini 2.5 Flash Map API
+  # Powered by Google Cloud AI (generative AI SDK)
   # ─────────────────────────────────────────────
   backend:
     build:
@@ -30,9 +32,13 @@ services:
     restart: unless-stopped
     environment:
       - PYTHONUNBUFFERED=1
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - CORS_ORIGINS=http://localhost:8080,http://localhost:5173
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 5s
+      start_period: 10s
