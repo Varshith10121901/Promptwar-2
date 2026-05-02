@@ -42,9 +42,11 @@ export function renderTimeline() {
       .join('');
   }
 
-  // Update region buttons active state
+  // Update region buttons active state and ARIA
   document.querySelectorAll('.region-btn').forEach((b) => {
-    b.classList.toggle('active', b.dataset.region === state.region);
+    const isActive = b.dataset.region === state.region;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-selected', isActive.toString());
   });
 }
 
@@ -95,8 +97,12 @@ export function initTimeline(onRegionChange) {
   document.querySelectorAll('.toggle-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       state.timelineView = e.target.dataset.view;
-      document.querySelectorAll('.toggle-btn').forEach((b) => b.classList.remove('active'));
+      document.querySelectorAll('.toggle-btn').forEach((b) => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
       e.target.classList.add('active');
+      e.target.setAttribute('aria-selected', 'true');
       renderTimeline();
     });
   });

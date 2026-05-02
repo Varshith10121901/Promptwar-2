@@ -57,8 +57,12 @@ export function initFaq() {
 
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      chips.forEach((c) => c.classList.remove('active'));
+      chips.forEach((c) => {
+        c.classList.remove('active');
+        c.setAttribute('aria-selected', 'false');
+      });
       chip.classList.add('active');
+      chip.setAttribute('aria-selected', 'true');
       renderFaqs(chip.dataset.cat, searchInput?.value || '');
     });
   });

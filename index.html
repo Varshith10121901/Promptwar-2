@@ -22,7 +22,7 @@
 
     <!-- Content Security Policy for XSS protection -->
     <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://www.gstatic.com https://www.googletagmanager.com https://apis.google.com https://*.firebaseio.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' http://localhost:* https://*.googleapis.com https://*.firebaseio.com https://*.cloudfunctions.net https://firestore.googleapis.com https://www.google-analytics.com; frame-src 'self' blob:;" />
+      content="default-src 'self'; script-src 'self' https://unpkg.com https://www.gstatic.com https://www.googletagmanager.com https://apis.google.com https://*.firebaseio.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' http://localhost:* https://*.googleapis.com https://*.firebaseio.com https://*.cloudfunctions.net https://firestore.googleapis.com https://www.google-analytics.com; frame-src 'self' blob:;" />
 
     <!-- Firebase SDK (Google Cloud Services) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" crossorigin="anonymous"></script>
@@ -272,20 +272,20 @@
           <h1 class="page-title"><i data-lucide="calendar"></i> Election Timeline</h1>
           <p class="page-desc">Track every milestone from registration to results day</p>
         </div>
-        <div class="region-selector">
-          <button class="region-btn active" data-region="india">India</button>
-          <button class="region-btn" data-region="us">USA</button>
-          <button class="region-btn" data-region="uk">UK</button>
-          <button class="region-btn" data-region="eu">EU</button>
+        <div class="region-selector" role="tablist" aria-label="Select Region">
+          <button class="region-btn active" data-region="india" role="tab" aria-selected="true">India</button>
+          <button class="region-btn" data-region="us" role="tab" aria-selected="false">USA</button>
+          <button class="region-btn" data-region="uk" role="tab" aria-selected="false">UK</button>
+          <button class="region-btn" data-region="eu" role="tab" aria-selected="false">EU</button>
         </div>
         <div class="countdown-banner" id="countdownBanner">
           <div class="countdown-label"><i data-lucide="clock"></i> Next Key Date</div>
           <div class="countdown-event" id="countdownEvent"></div>
           <div class="countdown-timer" id="countdownTimer"></div>
         </div>
-        <div class="timeline-toggle">
-          <button class="toggle-btn active" data-view="horizontal">Horizontal</button>
-          <button class="toggle-btn" data-view="vertical">Vertical</button>
+        <div class="timeline-toggle" role="tablist" aria-label="Timeline View Mode">
+          <button class="toggle-btn active" data-view="horizontal" role="tab" aria-selected="true">Horizontal</button>
+          <button class="toggle-btn" data-view="vertical" role="tab" aria-selected="false">Vertical</button>
         </div>
         <div class="timeline-container" id="timelineContainer"></div>
       </section>
@@ -360,6 +360,7 @@
               type="text"
               class="chat-input"
               id="chatInput"
+              aria-label="Ask the AI assistant"
               placeholder="Ask anything about elections..."
             />
             <button class="chat-send" id="chatSend" aria-label="Send message">
@@ -429,6 +430,7 @@
             type="text"
             class="chat-input"
             id="mapLocationInput"
+            aria-label="Enter your native place"
             style="flex: 1"
             placeholder="Enter your native place (e.g., Bangalore)..."
           />
@@ -581,15 +583,16 @@
             type="text"
             class="faq-search-input"
             id="faqSearch"
+            aria-label="Search frequently asked questions"
             placeholder=" Search questions..."
           />
         </div>
-        <div class="faq-categories">
-          <button class="faq-cat active" data-cat="all">All</button>
-          <button class="faq-cat" data-cat="registration">Registration</button>
-          <button class="faq-cat" data-cat="voting">Voting</button>
-          <button class="faq-cat" data-cat="documents">Documents</button>
-          <button class="faq-cat" data-cat="results">Results</button>
+        <div class="faq-categories" role="tablist" aria-label="FAQ Categories">
+          <button class="faq-cat active" data-cat="all" role="tab" aria-selected="true">All</button>
+          <button class="faq-cat" data-cat="registration" role="tab" aria-selected="false">Registration</button>
+          <button class="faq-cat" data-cat="voting" role="tab" aria-selected="false">Voting</button>
+          <button class="faq-cat" data-cat="documents" role="tab" aria-selected="false">Documents</button>
+          <button class="faq-cat" data-cat="results" role="tab" aria-selected="false">Results</button>
         </div>
         <div class="faq-list" id="faqList"></div>
       </section>
@@ -606,19 +609,5 @@
 
     <!-- Scripts -->
     <script type="module" src="/js/app.js"></script>
-    <script>
-      lucide.createIcons();
-    </script>
-    <script>
-      // Register Service Worker for PWA offline support
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker
-            .register('/sw.js')
-            .then((reg) => console.log('[SW] Registered:', reg.scope))
-            .catch((err) => console.warn('[SW] Registration failed:', err));
-        });
-      }
-    </script>
   </body>
 </html>
