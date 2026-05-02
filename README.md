@@ -17,6 +17,17 @@
 
 ---
 
+### 🔗 Live Demo
+
+| Service | URL |
+|---------|-----|
+| 🌐 **Frontend (Firebase)** | [https://promptwar2-ecd91.web.app](https://promptwar2-ecd91.web.app) |
+| ⚙️ **Backend API** | [https://votewise-backend-56106708900.us-central1.run.app](https://votewise-backend-56106708900.us-central1.run.app) |
+| 📖 **API Docs (Swagger)** | [https://votewise-backend-56106708900.us-central1.run.app/docs](https://votewise-backend-56106708900.us-central1.run.app/docs) |
+| 🐙 **GitHub Repository** | [https://github.com/Varshith10121901/Promptwar-2](https://github.com/Varshith10121901/Promptwar-2) |
+
+---
+
 ## 📖 Overview
 
 VoteWise is a **Progressive Web Application (PWA)** that empowers citizens to navigate the democratic election process with confidence. Built entirely on the **Google Cloud ecosystem**, it combines real-time AI assistance, interactive civic education tools, and cloud-powered data persistence to deliver an accessible, secure, and deeply engaging platform.
