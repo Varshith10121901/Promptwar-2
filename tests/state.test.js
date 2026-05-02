@@ -1,6 +1,9 @@
 /**
  * @vitest-environment jsdom
  * Tests for the State Module (js/state.js)
+ *
+ * Covers: setUser, setRegion, setTheme, toggleWizardStep,
+ * saveQuizScore, addChatEntry, isAuthenticated, getCurrentUserId, clearState
  */
 import { describe, it, expect, beforeEach } from 'vitest';
 
@@ -20,13 +23,14 @@ Object.defineProperty(global, 'localStorage', { value: localStorageMock });
 const dispatchedEvents = [];
 const originalDispatch = window.dispatchEvent;
 window.dispatchEvent = (event) => {
-  if (event.type === 'stateChange') dispatchedEvents.push(event.detail);
+  if (event.type === 'stateChange') {dispatchedEvents.push(event.detail);}
   return originalDispatch.call(window, event);
 };
 
 import {
   state, setUser, setRegion, setTheme,
-  toggleWizardStep, saveQuizScore, addChatEntry, isAuthenticated
+  toggleWizardStep, saveQuizScore, addChatEntry,
+  isAuthenticated, getCurrentUserId, clearState
 } from '../js/state.js';
 
 describe('State Module', () => {
@@ -38,26 +42,28 @@ describe('State Module', () => {
     state.wizardProgress = {};
     state.quizScore = 0;
     state.chatHistory = [];
+    state.isLoading = false;
+    state.error = null;
     dispatchedEvents.length = 0;
   });
 
   describe('setUser()', () => {
     it('saves user to state and localStorage', () => {
-      const user = { name: 'Varshith', email: 'v@test.com', location: 'Hubli' };
+      const user = { uid: 'u1', displayName: 'Varshith', email: 'v@test.com', location: 'Hubli', provider: 'form' };
       setUser(user);
       expect(state.user).toEqual(user);
       expect(JSON.parse(localStorage.getItem('vw_user'))).toEqual(user);
     });
 
     it('clears user on setUser(null)', () => {
-      setUser({ name: 'Test', email: 'test@t.com', location: 'X' });
+      setUser({ uid: 'u2', displayName: 'Test', email: 'test@t.com', location: 'X', provider: 'form' });
       setUser(null);
       expect(state.user).toBeNull();
       expect(localStorage.getItem('vw_user')).toBeNull();
     });
 
     it('dispatches stateChange event with key "user"', () => {
-      setUser({ name: 'A', email: 'a@a.com', location: 'B' });
+      setUser({ uid: 'u3', displayName: 'A', email: 'a@a.com', location: 'B', provider: 'google' });
       expect(dispatchedEvents).toContainEqual({ key: 'user' });
     });
   });
@@ -80,6 +86,11 @@ describe('State Module', () => {
       setRegion('uk');
       expect(dispatchedEvents).toContainEqual({ key: 'region' });
     });
+
+    it('throws on invalid input', () => {
+      expect(() => setRegion('')).toThrow();
+      expect(() => setRegion(null)).toThrow();
+    });
   });
 
   describe('setTheme()', () => {
@@ -87,6 +98,11 @@ describe('State Module', () => {
       setTheme('dark');
       expect(state.theme).toBe('dark');
       expect(localStorage.getItem('vw_theme')).toBe('dark');
+    });
+
+    it('defaults invalid themes to light', () => {
+      setTheme('invalid');
+      expect(state.theme).toBe('light');
     });
   });
 
@@ -107,19 +123,27 @@ describe('State Module', () => {
       const stored = JSON.parse(localStorage.getItem('vw_wizard'));
       expect(stored['us_step2']).toBe(true);
     });
+
+    it('ignores invalid keys', () => {
+      toggleWizardStep(null);
+      toggleWizardStep('');
+      expect(Object.keys(state.wizardProgress)).toHaveLength(0);
+    });
   });
 
   describe('saveQuizScore()', () => {
-    it('saves a higher score', () => {
+    it('saves a higher score and returns true', () => {
       state.quizScore = 5;
-      saveQuizScore(8);
+      const result = saveQuizScore(8);
       expect(state.quizScore).toBe(8);
+      expect(result).toBe(true);
     });
 
-    it('does not overwrite a higher existing score', () => {
+    it('does not overwrite a higher existing score and returns false', () => {
       state.quizScore = 9;
-      saveQuizScore(7);
+      const result = saveQuizScore(7);
       expect(state.quizScore).toBe(9);
+      expect(result).toBe(false);
     });
   });
 
@@ -129,6 +153,12 @@ describe('State Module', () => {
       expect(state.chatHistory).toHaveLength(1);
       expect(state.chatHistory[0]).toEqual({ q: 'What is voting?', a: 'Voting is a right.' });
     });
+
+    it('ignores empty inputs', () => {
+      addChatEntry('', 'answer');
+      addChatEntry('question', '');
+      expect(state.chatHistory).toHaveLength(0);
+    });
   });
 
   describe('isAuthenticated()', () => {
@@ -137,8 +167,51 @@ describe('State Module', () => {
     });
 
     it('returns true when user exists', () => {
-      setUser({ name: 'Test', email: 't@t.com', location: 'X' });
+      setUser({ uid: 'u4', displayName: 'Test', email: 't@t.com', location: 'X', provider: 'form' });
       expect(isAuthenticated()).toBe(true);
+    });
+  });
+
+  describe('getCurrentUserId()', () => {
+    it('returns null when no user', () => {
+      expect(getCurrentUserId()).toBeNull();
+    });
+
+    it('returns uid when user exists', () => {
+      setUser({ uid: 'firebase-123', displayName: 'A', email: 'a@a.com', provider: 'google' });
+      expect(getCurrentUserId()).toBe('firebase-123');
+    });
+  });
+
+  describe('clearState()', () => {
+    it('resets all state to defaults', () => {
+      setUser({ uid: 'x', displayName: 'X', email: 'x@x.com', provider: 'form' });
+      setRegion('us');
+      setTheme('dark');
+      saveQuizScore(5);
+      addChatEntry('hi', 'hello');
+      toggleWizardStep('us_reg');
+
+      clearState();
+
+      expect(state.user).toBeNull();
+      expect(state.region).toBe('india');
+      expect(state.theme).toBe('light');
+      expect(state.quizScore).toBe(0);
+      expect(state.chatHistory).toHaveLength(0);
+      expect(Object.keys(state.wizardProgress)).toHaveLength(0);
+    });
+
+    it('clears all localStorage keys', () => {
+      setUser({ uid: 'z', displayName: 'Z', email: 'z@z.com', provider: 'form' });
+      clearState();
+      expect(localStorage.getItem('vw_user')).toBeNull();
+      expect(localStorage.getItem('vw_region')).toBeNull();
+    });
+
+    it('dispatches stateChange with key "reset"', () => {
+      clearState();
+      expect(dispatchedEvents).toContainEqual({ key: 'reset' });
     });
   });
 });

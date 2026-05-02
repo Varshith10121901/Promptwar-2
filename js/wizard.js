@@ -5,6 +5,8 @@
  * tracking completion, and updating progress bars.
  *
  * @module wizard
+ * @version 2.1.0
+ * @license MIT
  */
 
 import { electionData } from './data.js';

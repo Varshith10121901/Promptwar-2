@@ -1,3 +1,53 @@
+/**
+ * VoteWise — Static Election Data Module
+ *
+ * Contains all static data used across the application:
+ *   - Election timelines for 4 regions (India, US, UK, EU)
+ *   - Voting preparation wizard steps
+ *   - FAQ entries for the chatbot
+ *   - Quiz questions and answers
+ *   - Polling booth mock data
+ *   - Museum exhibit data
+ *   - Live event schedules
+ *
+ * This module is the single source of truth for all non-user-specific data.
+ * User-specific data lives in state.js and Cloud Firestore.
+ *
+ * @module data
+ * @version 2.1.0
+ * @license MIT
+ */
+
+/**
+ * @typedef {Object} TimelineEvent
+ * @property {string} date - Display date string (e.g. 'Apr 19, 2026')
+ * @property {string} title - Event title
+ * @property {string} desc - Short description
+ * @property {boolean} passed - Whether this event has already occurred
+ * @property {boolean} [upcoming] - Whether this is the next upcoming event
+ */
+
+/**
+ * @typedef {Object} WizardStep
+ * @property {string} id - Unique step identifier
+ * @property {string} title - Step title
+ * @property {string} desc - Step instruction text
+ */
+
+/**
+ * @typedef {Object} RegionData
+ * @property {string} name - Display name of the region
+ * @property {string} icon - Lucide icon name
+ * @property {string} nextEvent - Name of the next election event
+ * @property {number} nextDate - Epoch timestamp of the next event
+ * @property {TimelineEvent[]} timeline - Ordered list of election events
+ * @property {WizardStep[]} wizard - Voting preparation steps
+ */
+
+/**
+ * Election data for all supported regions.
+ * @type {Object<string, RegionData>}
+ */
 export const electionData = {
   india: {
     name: 'India',
@@ -217,6 +267,10 @@ export const electionData = {
   },
 };
 
+/**
+ * Frequently Asked Questions for the chatbot and FAQ page.
+ * @type {Array<{q: string, a: string, category: string}>}
+ */
 export const faqs = [
   {
     q: 'How do I register to vote?',
@@ -250,6 +304,10 @@ export const faqs = [
   },
 ];
 
+/**
+ * Civic knowledge quiz questions with multiple-choice answers.
+ * @type {Array<{q: string, options: string[], answer: number}>}
+ */
 export const quizQuestions = [
   {
     q: 'What is the minimum voting age in most democratic countries?',
@@ -288,6 +346,10 @@ export const quizQuestions = [
   },
 ];
 
+/**
+ * Mock polling booth data for the booth finder feature.
+ * @type {Array<{id: number, name: string, distance: string, waitTime: number, crowdLevel: string}>}
+ */
 export const pollingBooths = [
   { id: 1, name: "St. Mary's High School", distance: '0.8 km', waitTime: 15, crowdLevel: 'low' },
   { id: 2, name: 'Community Hall, Sector 4', distance: '1.2 km', waitTime: 45, crowdLevel: 'high' },
@@ -296,6 +358,10 @@ export const pollingBooths = [
   { id: 5, name: 'City College Auditorium', distance: '4.1 km', waitTime: 60, crowdLevel: 'high' },
 ];
 
+/**
+ * Virtual Election Museum exhibit entries.
+ * @type {Array<{id: number, title: string, year: string, desc: string, icon: string}>}
+ */
 export const museumExhibits = [
   {
     id: 1,
@@ -334,6 +400,10 @@ export const museumExhibits = [
   },
 ];
 
+/**
+ * Live election-related events and activities.
+ * @type {Array<{id: number, title: string, time: string, location: string, type: string, icon: string}>}
+ */
 export const liveEvents = [
   {
     id: 1,

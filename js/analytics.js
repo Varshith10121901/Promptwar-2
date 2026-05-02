@@ -9,13 +9,14 @@
  * but provides direct gtag.js access for fine-grained control.
  *
  * @module analytics
+ * @version 2.1.0
+ * @license MIT
  * @see https://developers.google.com/analytics/devguides/collection/ga4
  */
 
 /* global gtag */
 
-/** @type {string} Google Analytics Measurement ID */
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+import { GA_MEASUREMENT_ID } from './constants.js';
 
 /** @type {boolean} Whether analytics has been initialized */
 let _gaInitialized = false;

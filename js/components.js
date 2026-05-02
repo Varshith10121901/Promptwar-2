@@ -5,6 +5,8 @@
  * Museum Gallery, Live Events feed, and Pride Badge claiming.
  *
  * @module components
+ * @version 2.1.0
+ * @license MIT
  */
 
 import { pollingBooths, museumExhibits, liveEvents } from './data.js';

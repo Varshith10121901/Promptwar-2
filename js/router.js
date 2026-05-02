@@ -4,6 +4,10 @@
  * Handles hash-based SPA routing with authentication guard.
  * Protected pages require a logged-in user; unauthenticated users
  * are redirected to the login page.
+ *
+ * @module router
+ * @version 2.1.0
+ * @license MIT
  */
 
 const PROTECTED_PAGES = [

@@ -5,10 +5,13 @@
  * FAQ matching, and integration with the Gemini-powered backend.
  *
  * @module chat
+ * @version 2.1.0
+ * @license MIT
  */
 
 import { faqs, electionData } from './data.js';
 import { state, addChatEntry } from './state.js';
+import { CHAT_TYPING_DELAY_MS } from './constants.js';
 
 /**
  * Refreshes Lucide icons after dynamic DOM updates.
@@ -121,7 +124,7 @@ export function initChat(inputEl, messagesEl) {
       const response = generateResponse(q);
       addChatMessage(messagesEl, response, false);
       addChatEntry(q, response);
-    }, 1200);
+    }, CHAT_TYPING_DELAY_MS);
   }
 
   document.getElementById('chatSend')?.addEventListener('click', () => handleChat(inputEl.value));

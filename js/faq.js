@@ -5,6 +5,8 @@
  * search filtering, and active category toggling.
  *
  * @module faq
+ * @version 2.1.0
+ * @license MIT
  */
 
 import { faqs } from './data.js';

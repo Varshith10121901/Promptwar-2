@@ -5,6 +5,8 @@
  * countdown timers, and region selection updates.
  *
  * @module timeline
+ * @version 2.1.0
+ * @license MIT
  */
 
 import { electionData } from './data.js';
