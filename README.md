@@ -299,74 +299,94 @@ cp .env.example .env
 ## 📂 Project Structure
 
 ```
-votewise/
-├── index.html                 # SPA entry (Firebase SDK, CSP, Google Fonts)
-├── package.json               # v2.0.0, 0 vulnerabilities
-├── eslint.config.js           # ESLint v9 flat config with security rules
-├── vitest.config.js           # Vitest + jsdom + V8 coverage
-├── vite.config.js             # Vite bundler
-├── firebase.json              # Hosting + Functions + Firestore config
-├── firestore.rules            # Security rules (user-scoped access)
-├── firestore.indexes.json     # Firestore composite indexes
-├── .env.example               # Environment variable template
-├── CHANGELOG.md               # Version history (v1.0 → v2.1)
-├── SECURITY.md                # Security policy & disclosure
-├── LICENSE                    # MIT License
+D:\Hackathons\Promptwar 2\
 │
-├── js/                        # 15 ES6+ modules
-│   ├── app.js                 # Thin orchestrator (~240 lines)
-│   ├── state.js               # Centralized state + CustomEvent reactivity
-│   ├── router.js              # Hash-based SPA router + auth guard
-│   ├── api.js                 # Sanitized fetch wrapper + prompt injection guard
-│   ├── firebase.js            # Firebase Auth, Firestore, Analytics, Perf
-│   ├── analytics.js           # Google Analytics 4 (gtag.js) wrapper
-│   ├── chat.js                # AI chatbot UI + FAQ matching
-│   ├── quiz.js                # Civic knowledge quiz + confetti
-│   ├── timeline.js            # Election timeline + countdown
-│   ├── wizard.js              # Voting preparation wizard
-│   ├── dashboard.js           # Personal dashboard + readiness ring
-│   ├── faq.js                 # Searchable FAQ
-│   ├── components.js          # Booths, Museum, Events, Pride Badge
-│   ├── confetti.js            # Canvas confetti animation engine
-│   └── data.js                # Static election data (4 regions)
+├── 📄 Root Config
+│   ├── index.html                  # SPA entry (Firebase SDK, CSP, Google Fonts)
+│   ├── package.json                # v2.0.0 — 0 vulnerabilities
+│   ├── package-lock.json           # Lockfile
+│   ├── vite.config.js              # Vite bundler config
+│   ├── vitest.config.js            # Test runner config (jsdom + V8 coverage)
+│   ├── eslint.config.js            # ESLint v9 flat config + security rules
+│   ├── .prettierrc                 # Code formatter config
+│   ├── .env.example                # Environment variable template
+│   ├── .gitignore                  # Git ignore rules
+│   ├── .dockerignore               # Docker ignore rules
+│   ├── .firebaserc                 # Firebase project alias
 │
-├── css/
-│   ├── styles.css             # Design tokens & base styles
-│   └── components.css         # Component styles + Google Sign-In button
+├── 🔥 Firebase
+│   ├── firebase.json               # Hosting + Functions + Firestore config
+│   ├── firestore.rules             # Security rules (user-scoped access)
+│   └── firestore.indexes.json      # Composite indexes
 │
-├── public/
-│   ├── sw.js                  # Service Worker v3 (15 cached modules)
-│   └── manifest.json          # PWA manifest
+├── 📝 Documentation
+│   ├── README.md                   # Full docs (9 Google services, architecture)
+│   ├── CHANGELOG.md                # v1.0 → v2.0 → v2.1
+│   ├── SECURITY.md                 # Security policy & disclosure
+│   ├── CODE_OF_CONDUCT.md          # Community guidelines
+│   ├── CONTRIBUTING.md             # Contribution guide
+│   └── LICENSE                     # MIT License
 │
-├── tests/                     # 6 test suites, 67 tests
-│   ├── state.test.js          # 15 tests
-│   ├── firebase.test.js       # 18 tests
-│   ├── chat.test.js           # 13 tests
-│   ├── api.test.js            # 9 tests
-│   ├── analytics.test.js      # 8 tests
-│   └── router.test.js         # 4 tests
+├── 🎨 js/ (15 ES6+ modules)
+│   ├── app.js                      # Thin orchestrator (~240 lines)
+│   ├── state.js                    # Centralized state + CustomEvent
+│   ├── router.js                   # Hash-based SPA router + auth guard
+│   ├── api.js                      # Fetch wrapper + prompt injection guard
+│   ├── firebase.js                 # Auth, Firestore, Analytics, Perf
+│   ├── analytics.js                # Google Analytics 4 (gtag.js)
+│   ├── chat.js                     # AI chatbot UI + FAQ matching
+│   ├── quiz.js                     # Civic quiz + confetti
+│   ├── timeline.js                 # Election timeline + countdown
+│   ├── wizard.js                   # Voting preparation wizard
+│   ├── dashboard.js                # Dashboard + readiness ring
+│   ├── faq.js                      # Searchable FAQ
+│   ├── components.js               # Booths, Museum, Events, Badge
+│   ├── confetti.js                 # Canvas confetti engine
+│   └── data.js                     # Static election data (4 regions)
 │
-├── functions/                 # Google Cloud Functions
-│   ├── index.js               # generateVotingSummary + onUserCreated
-│   └── package.json           # firebase-admin, firebase-functions, @google/generative-ai
+├── 🎨 css/
+│   ├── styles.css                  # Design tokens & base styles
+│   └── components.css              # Component styles + Google Sign-In
 │
-├── backend/                   # Python FastAPI backend
-│   ├── main.py                # Gemini AI + Folium map generator
-│   ├── requirements.txt       # fastapi, uvicorn, folium, google-generativeai
-│   ├── Dockerfile             # Non-root, healthcheck, 2 workers
+├── 📦 public/
+│   ├── sw.js                       # Service Worker v3 (15 cached modules)
+│   └── manifest.json               # PWA manifest
+│
+├── 🧪 tests/ (6 suites, 67 tests)
+│   ├── state.test.js               # 15 tests — state management
+│   ├── firebase.test.js            # 18 tests — Auth, Firestore CRUD
+│   ├── chat.test.js                # 13 tests — messages, FAQ, ARIA
+│   ├── api.test.js                 #  9 tests — fetch, injection guard
+│   ├── analytics.test.js           #  8 tests — GA4 init, events
+│   └── router.test.js              #  4 tests — navigation, auth
+│
+├── ⚡ functions/ (Cloud Functions)
+│   ├── index.js                    # generateVotingSummary + onUserCreated
+│   └── package.json                # firebase-admin, @google/generative-ai
+│
+├── 🐍 backend/ (FastAPI + Gemini)
+│   ├── main.py                     # Gemini 2.5 Flash map generator
+│   ├── requirements.txt            # Python dependencies
+│   ├── Dockerfile                  # Non-root, healthcheck, 2 workers
+│   ├── .flake8                     # Python lint config
 │   └── tests/
-│       ├── conftest.py        # Shared pytest fixtures
+│       ├── __init__.py             # Package init
+│       ├── conftest.py             # Shared fixtures
 │       ├── test_map_endpoint.py    # 10 endpoint tests
 │       ├── test_schemas.py         # 10 validation tests
-│       └── test_health_security.py # 8 security tests
+│       └── test_health_security.py #  8 security tests
 │
-├── .github/workflows/
-│   ├── ci.yml                 # CI: lint, test, security scan, Docker build
-│   └── deploy.yml             # CD: Cloud Run + Firebase Hosting (manual)
+├── 🐳 Docker
+│   ├── Dockerfile                  # Frontend: Node 22 → Nginx (multi-stage)
+│   ├── docker-compose.yml          # Full-stack orchestration
+│   └── nginx.conf                  # HSTS, gzip, SPA routing, security
 │
-├── Dockerfile                 # Frontend multi-stage (Node 22 → Nginx)
-├── docker-compose.yml         # Full-stack orchestration
-└── nginx.conf                 # Production Nginx (gzip, HSTS, SPA)
+├── 🔄 CI/CD
+│   ├── .github/workflows/ci.yml    # Lint, test, security, Docker build
+│   └── .github/workflows/deploy.yml # Cloud Run + Firebase (manual)
+│
+└── 🪝 Husky
+    └── .husky/pre-commit           # Lint + test gate (v10 compatible)
 ```
 
 ---
