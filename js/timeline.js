@@ -15,10 +15,10 @@ import { state, setRegion } from './state.js';
  */
 export function renderTimeline() {
   const data = electionData[state.region];
-  if (!data) return;
+  if (!data) {return;}
 
   const eventEl = document.getElementById('countdownEvent');
-  if (eventEl) eventEl.textContent = data.nextEvent;
+  if (eventEl) {eventEl.textContent = data.nextEvent;}
 
   const container = document.getElementById('timelineContainer');
   if (container) {
@@ -49,10 +49,10 @@ export function renderTimeline() {
 export function initCountdown() {
   setInterval(() => {
     const data = electionData[state.region];
-    if (!data || !data.nextDate) return;
+    if (!data || !data.nextDate) {return;}
 
     const timerEl = document.getElementById('countdownTimer');
-    if (!timerEl) return;
+    if (!timerEl) {return;}
 
     const diff = data.nextDate - Date.now();
     if (diff <= 0) {
@@ -82,7 +82,7 @@ export function initTimeline(onRegionChange) {
       const region = e.target.dataset.region;
       setRegion(region);
       renderTimeline();
-      if (onRegionChange) onRegionChange(region);
+      if (onRegionChange) {onRegionChange(region);}
     });
   });
 

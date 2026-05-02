@@ -1,7 +1,7 @@
 // Simple confetti implementation for celebration effects
 export function initConfetti() {
   const canvas = document.getElementById('confettiCanvas');
-  if (!canvas) return;
+  if (!canvas) {return;}
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -41,7 +41,7 @@ export function initConfetti() {
       ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
       ctx.stroke();
 
-      if (p.y > canvas.height) particles.splice(index, 1);
+      if (p.y > canvas.height) {particles.splice(index, 1);}
     });
 
     if (particles.length > 0) {

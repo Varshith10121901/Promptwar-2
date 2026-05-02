@@ -16,7 +16,7 @@ import { faqs } from './data.js';
  */
 export function renderFaqs(category, searchQuery = '') {
   const container = document.getElementById('faqList');
-  if (!container) return;
+  if (!container) {return;}
 
   const filtered = faqs.filter((f) => {
     const matchesCat = category === 'all' || f.category === category;

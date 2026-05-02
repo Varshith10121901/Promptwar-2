@@ -16,14 +16,14 @@ import { state, setRegion, toggleWizardStep } from './state.js';
  */
 export function renderWizard() {
   const data = electionData[state.region];
-  if (!data) return;
+  if (!data) {return;}
 
   const regionSelect = document.getElementById('wizardRegion');
-  if (regionSelect) regionSelect.value = state.region;
+  if (regionSelect) {regionSelect.value = state.region;}
 
   const steps = data.wizard || [];
   const container = document.getElementById('wizardSteps');
-  if (!container) return;
+  if (!container) {return;}
 
   container.innerHTML = steps
     .map((step, idx) => {
@@ -59,10 +59,10 @@ export function renderWizard() {
   const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
 
   const bar = document.getElementById('wizardProgress');
-  if (bar) bar.style.width = `${pct}%`;
+  if (bar) {bar.style.width = `${pct}%`;}
 
   const text = document.getElementById('wizardProgressText');
-  if (text) text.textContent = `${pct}% Complete`;
+  if (text) {text.textContent = `${pct}% Complete`;}
 }
 
 /**
@@ -76,7 +76,7 @@ export function initWizard(onRegionChange) {
       const region = e.target.value;
       setRegion(region);
       renderWizard();
-      if (onRegionChange) onRegionChange(region);
+      if (onRegionChange) {onRegionChange(region);}
     });
   }
 }

@@ -31,7 +31,7 @@ export function navigate(pageId) {
 
   document.querySelectorAll('.nav-item').forEach((n) => {
     n.classList.remove('active');
-    if (n.dataset.page === pageId) n.classList.add('active');
+    if (n.dataset.page === pageId) {n.classList.add('active');}
   });
 
   // Close mobile sidebar on navigation
@@ -39,7 +39,7 @@ export function navigate(pageId) {
 
   // Announce navigation to screen readers
   const ariaLive = document.getElementById('ariaLive');
-  if (ariaLive) ariaLive.textContent = `Navigated to ${pageId} page`;
+  if (ariaLive) {ariaLive.textContent = `Navigated to ${pageId} page`;}
 }
 
 /**
@@ -61,7 +61,7 @@ export function initRouter(isAuthenticated, onNavigate) {
     }
 
     navigate(hash);
-    if (typeof onNavigate === 'function') onNavigate(hash);
+    if (typeof onNavigate === 'function') {onNavigate(hash);}
   }
 
   // Listen for hash changes
@@ -79,7 +79,7 @@ export function initRouter(isAuthenticated, onNavigate) {
       }
 
       navigate(target);
-      if (typeof onNavigate === 'function') onNavigate(target);
+      if (typeof onNavigate === 'function') {onNavigate(target);}
     });
   });
 

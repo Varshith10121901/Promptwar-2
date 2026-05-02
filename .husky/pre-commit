@@ -1,8 +1,5 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "[Husky] Running pre-commit checks..."
-npm run lint || true # Allowing to fail for now if there are many unfixable lint errors
+npm run lint || true
 npm run test
 echo "[Husky] Running Python backend tests..."
 cd backend && pytest tests/ || true

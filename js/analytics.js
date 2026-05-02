@@ -25,7 +25,7 @@ let _gaInitialized = false;
  * Safe to call multiple times — only injects once.
  */
 export function initGoogleAnalytics() {
-  if (_gaInitialized) return;
+  if (_gaInitialized) {return;}
 
   try {
     // Create and inject the gtag.js script
@@ -59,7 +59,7 @@ export function initGoogleAnalytics() {
  * @param {string} [pageTitle] - Optional page title.
  */
 export function trackPageView(pagePath, pageTitle) {
-  if (!_gaInitialized || typeof gtag === 'undefined') return;
+  if (!_gaInitialized || typeof gtag === 'undefined') {return;}
 
   gtag('event', 'page_view', {
     page_path: pagePath,
@@ -74,7 +74,7 @@ export function trackPageView(pagePath, pageTitle) {
  * @param {Object} [params={}] - Optional event parameters.
  */
 export function trackEvent(eventName, params = {}) {
-  if (!_gaInitialized || typeof gtag === 'undefined') return;
+  if (!_gaInitialized || typeof gtag === 'undefined') {return;}
 
   gtag('event', eventName, {
     ...params,
@@ -89,7 +89,7 @@ export function trackEvent(eventName, params = {}) {
  * @param {number} value - Duration in milliseconds.
  */
 export function trackTiming(name, value) {
-  if (!_gaInitialized || typeof gtag === 'undefined') return;
+  if (!_gaInitialized || typeof gtag === 'undefined') {return;}
 
   gtag('event', 'timing_complete', {
     name,

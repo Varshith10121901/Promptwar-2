@@ -25,7 +25,7 @@ export function setComponentIconUpdater(fn) {
  */
 export function renderBooths() {
   const grid = document.getElementById('boothGrid');
-  if (!grid) return;
+  if (!grid) {return;}
 
   grid.innerHTML = pollingBooths
     .map((b) => {
@@ -55,7 +55,7 @@ export function renderBooths() {
  */
 export function renderMuseum() {
   const gallery = document.getElementById('museumGallery');
-  if (!gallery) return;
+  if (!gallery) {return;}
 
   gallery.innerHTML = museumExhibits
     .map(
@@ -73,8 +73,8 @@ export function renderMuseum() {
 
   const nextBtn = document.getElementById('galleryNext');
   const prevBtn = document.getElementById('galleryPrev');
-  if (nextBtn) nextBtn.onclick = () => gallery.scrollBy({ left: 350, behavior: 'smooth' });
-  if (prevBtn) prevBtn.onclick = () => gallery.scrollBy({ left: -350, behavior: 'smooth' });
+  if (nextBtn) {nextBtn.onclick = () => gallery.scrollBy({ left: 350, behavior: 'smooth' });}
+  if (prevBtn) {prevBtn.onclick = () => gallery.scrollBy({ left: -350, behavior: 'smooth' });}
 }
 
 /**
@@ -82,7 +82,7 @@ export function renderMuseum() {
  */
 export function renderEvents() {
   const feed = document.getElementById('eventsFeed');
-  if (!feed) return;
+  if (!feed) {return;}
 
   feed.innerHTML = liveEvents
     .map(

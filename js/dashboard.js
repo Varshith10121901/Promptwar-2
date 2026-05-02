@@ -26,7 +26,7 @@ export function setDashboardIconUpdater(fn) {
  */
 export function renderDashboard() {
   const regionData = electionData[state.region];
-  if (!regionData) return;
+  if (!regionData) {return;}
 
   // Region Info
   const dashRegion = document.getElementById('dashRegion');
@@ -48,15 +48,15 @@ export function renderDashboard() {
   const wizardPct = total ? Math.round((completed / total) * 100) : 0;
 
   const dashWizardStat = document.getElementById('dashWizardStat');
-  if (dashWizardStat) dashWizardStat.textContent = `${completed} / ${total} steps`;
+  if (dashWizardStat) {dashWizardStat.textContent = `${completed} / ${total} steps`;}
 
   const dashWizardFill = document.getElementById('dashWizardFill');
-  if (dashWizardFill) dashWizardFill.style.width = `${wizardPct}%`;
+  if (dashWizardFill) {dashWizardFill.style.width = `${wizardPct}%`;}
 
   // Overall Readiness (Circular Ring)
   const readinessPct = Math.round((wizardPct + (state.quizScore / 5) * 100) / 2);
   const readinessPctEl = document.getElementById('readinessPct');
-  if (readinessPctEl) readinessPctEl.textContent = `${readinessPct}%`;
+  if (readinessPctEl) {readinessPctEl.textContent = `${readinessPct}%`;}
 
   const ring = document.getElementById('readinessRing');
   if (ring) {
@@ -68,7 +68,7 @@ export function renderDashboard() {
 
   // Chat Activity
   const dashChatStat = document.getElementById('dashChatStat');
-  if (dashChatStat) dashChatStat.textContent = `${state.chatHistory.length} interactions`;
+  if (dashChatStat) {dashChatStat.textContent = `${state.chatHistory.length} interactions`;}
 
   // Deadlines List
   const deadlines = regionData.timeline.filter((t) => !t.passed);

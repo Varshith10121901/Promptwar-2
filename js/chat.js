@@ -92,7 +92,7 @@ export function generateResponse(question) {
   const matchedFaq = faqs.find(
     (f) => lq.includes(f.category) || lq.includes(f.q.toLowerCase().split(' ')[1])
   );
-  if (matchedFaq) return matchedFaq.a;
+  if (matchedFaq) {return matchedFaq.a;}
 
   return "I'm not sure about that. I recommend checking your local election authority's official website.";
 }
@@ -103,14 +103,14 @@ export function generateResponse(question) {
  * @param {HTMLElement} messagesEl - The chat messages container.
  */
 export function initChat(inputEl, messagesEl) {
-  if (!inputEl || !messagesEl) return;
+  if (!inputEl || !messagesEl) {return;}
 
   /**
    * Handles a user chat submission.
    * @param {string} q - The user's question text.
    */
   function handleChat(q) {
-    if (!q.trim()) return;
+    if (!q.trim()) {return;}
     addChatMessage(messagesEl, q, true);
     inputEl.value = '';
 
@@ -126,7 +126,7 @@ export function initChat(inputEl, messagesEl) {
 
   document.getElementById('chatSend')?.addEventListener('click', () => handleChat(inputEl.value));
   inputEl.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleChat(inputEl.value);
+    if (e.key === 'Enter') {handleChat(inputEl.value);}
   });
   document.querySelectorAll('.suggestion-chip').forEach((chip) => {
     chip.addEventListener('click', () => handleChat(chip.textContent));

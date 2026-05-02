@@ -63,7 +63,7 @@ export function renderQuiz() {
 
   opts.querySelectorAll('.quiz-option').forEach((el) => {
     el.addEventListener('click', (e) => {
-      if (!btnNext.classList.contains('hidden')) return;
+      if (!btnNext.classList.contains('hidden')) {return;}
       const selected = parseInt(e.target.dataset.idx);
       e.target.classList.add('selected');
 
@@ -76,7 +76,7 @@ export function renderQuiz() {
       }
 
       btnNext.classList.remove('hidden');
-      if (currentQIdx === quizQuestions.length - 1) btnNext.textContent = 'Finish Quiz';
+      if (currentQIdx === quizQuestions.length - 1) {btnNext.textContent = 'Finish Quiz';}
     });
   });
 }
