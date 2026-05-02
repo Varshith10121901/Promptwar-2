@@ -1,10 +1,14 @@
 /**
- * VoteWise — Main Application Orchestrator
+ * VoteWise — Main Application Orchestrator (v2.0)
  *
- * This file is a clean coordinator that delegatess all domain logic
- * to specialized, decoupled ES modules.
+ * Clean coordinator that delegates all domain logic to
+ * specialized, decoupled ES modules. Integrates Google
+ * Cloud services: Firebase Auth, Firestore, Analytics,
+ * and Gemini AI.
  *
  * @module app
+ * @version 2.0.0
+ * @license MIT
  */
 
 import { initConfetti } from './confetti.js';
@@ -19,25 +23,49 @@ import { setChatIconUpdater, initChat } from './chat.js';
 import { setQuizDeps, initQuiz, renderQuiz } from './quiz.js';
 import { setDashboardIconUpdater, renderDashboard } from './dashboard.js';
 import { initFaq } from './faq.js';
-import { 
-  setComponentIconUpdater, 
-  renderBooths, 
-  renderMuseum, 
-  renderEvents, 
-  initPrideBadge 
+import {
+  setComponentIconUpdater,
+  renderBooths,
+  renderMuseum,
+  renderEvents,
+  initPrideBadge,
 } from './components.js';
 
+// Google Cloud Services
+import { initFirebase, signInAnonymously, logAnalyticsEvent } from './firebase.js';
+import { initGoogleAnalytics, trackPageView, trackEvent } from './analytics.js';
+
 /**
- * Entry point of the application.
- * Executes immediately as a module.
+ * Application entry point.
+ * Executes immediately as an ES module (deferred by default).
  */
 (() => {
   // ─────────────────────────────────────────────
-  // 1. CORE UTILITIES
+  // 1. GOOGLE CLOUD SERVICES INITIALIZATION
+  // ─────────────────────────────────────────────
+  initFirebase();
+  initGoogleAnalytics();
+
+  // Anonymous auth for Firestore writes
+  signInAnonymously().then((uid) => {
+    if (uid) {
+      console.info('[App] Firebase user:', uid);
+    }
+  });
+
+  // ─────────────────────────────────────────────
+  // 2. CORE UTILITIES
   // ─────────────────────────────────────────────
   const confetti = initConfetti();
+
+  /**
+   * Refreshes all Lucide SVG icons after DOM updates.
+   * @returns {void}
+   */
   const updateIcons = () => {
-    if (window.lucide) window.lucide.createIcons();
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
   };
 
   // Inject dependencies into modules
@@ -47,29 +75,38 @@ import {
   setComponentIconUpdater(updateIcons);
 
   // ─────────────────────────────────────────────
-  // 2. THEME INITIALIZATION
+  // 3. THEME INITIALIZATION
   // ─────────────────────────────────────────────
+
+  /**
+   * Applies a theme to the document and persists the preference.
+   * @param {string} t - Theme identifier: 'light' or 'dark'.
+   */
   function applyTheme(t) {
     document.documentElement.dataset.theme = t;
     setTheme(t);
     const isDark = t === 'dark';
-    
-    // Update Theme Toggle Buttons
+
     const themeIcon = document.querySelector('.theme-icon');
     const themeLabel = document.querySelector('.theme-label');
     const themeMobile = document.getElementById('themeToggleMobile');
 
-    if (themeIcon) themeIcon.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
-    if (themeLabel) themeLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-    if (themeMobile) themeMobile.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
-    
+    if (themeIcon) {
+      themeIcon.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
+    }
+    if (themeLabel) {
+      themeLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    }
+    if (themeMobile) {
+      themeMobile.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
+    }
+
     updateIcons();
+    trackEvent('theme_change', { theme: t });
   }
 
-  // Initial Theme Load
   applyTheme(state.theme);
 
-  // Listeners
   document.getElementById('themeToggle')?.addEventListener('click', () => {
     applyTheme(state.theme === 'light' ? 'dark' : 'light');
   });
@@ -78,7 +115,7 @@ import {
   });
 
   // ─────────────────────────────────────────────
-  // 3. UI NAVIGATION (Mobile)
+  // 4. UI NAVIGATION (Mobile Sidebar)
   // ─────────────────────────────────────────────
   document.getElementById('hamburger')?.addEventListener('click', () => {
     document.getElementById('sidebar')?.classList.add('open');
@@ -88,8 +125,14 @@ import {
   });
 
   // ─────────────────────────────────────────────
-  // 4. MAP GENERATION (Backend Integration)
+  // 5. MAP GENERATION (Gemini AI Backend)
   // ─────────────────────────────────────────────
+
+  /**
+   * Initializes the interactive map feature.
+   * Binds the "Find My Polling Station" button to the
+   * Gemini-powered backend API.
+   */
   function initMapInteraction() {
     const btn = document.getElementById('btnFindMap');
     const input = document.getElementById('mapLocationInput');
@@ -103,26 +146,37 @@ import {
       const loc = input.value.trim();
       if (!loc) return;
 
-      loading.classList.remove('hidden');
-      container.classList.add('hidden');
+      if (loading) loading.classList.remove('hidden');
+      if (container) container.classList.add('hidden');
 
       try {
         const html = await fetchElectionMap(loc);
-        frame.srcdoc = html;
-        container.classList.remove('hidden');
+        if (frame) frame.srcdoc = html;
+        if (container) container.classList.remove('hidden');
+
+        // Track map generation event
+        trackEvent('map_generated', { location: loc });
+        logAnalyticsEvent('map_generated', { location: loc });
       } catch (err) {
-        alert(err.message);
+        console.error('[Map] Generation failed:', err.message);
+        const ariaLive = document.getElementById('ariaLive');
+        if (ariaLive) {
+          ariaLive.textContent = `Map generation failed: ${err.message}`;
+        }
       } finally {
-        loading.classList.add('hidden');
+        if (loading) loading.classList.add('hidden');
       }
     });
   }
 
   // ─────────────────────────────────────────────
-  // 5. BOOTSTRAP ALL MODULES
+  // 6. BOOTSTRAP ALL MODULES
   // ─────────────────────────────────────────────
-  
-  // Refresh UI based on current route/page
+
+  /**
+   * Renders page-specific content when navigating.
+   * @param {string} page - The page identifier from the hash route.
+   */
   const onPageLoad = (page) => {
     switch (page) {
       case 'home':
@@ -147,26 +201,40 @@ import {
       case 'events':
         renderEvents();
         break;
+      default:
+        break;
     }
     updateIcons();
+
+    // Track page view in Google Analytics
+    trackPageView(`/${page}`, `VoteWise — ${page}`);
+    logAnalyticsEvent('page_view', { page_name: page });
   };
 
-  // Shared callback for region changes
+  /**
+   * Callback for region changes — refreshes the active page.
+   */
   const handleGlobalRefresh = () => {
-    onPageLoad(window.location.hash.replace('#', '') || 'home');
+    const hash = window.location.hash.replace('#', '') || 'home';
+    onPageLoad(hash);
   };
 
-  // Init Domain Logic
+  // Initialize all domain modules
   initRouter(isAuthenticated, onPageLoad);
   initTimeline(handleGlobalRefresh);
   initWizard(handleGlobalRefresh);
-  initChat(document.getElementById('chatInput'), document.getElementById('chatMessages'));
+  initChat(
+    document.getElementById('chatInput'),
+    document.getElementById('chatMessages')
+  );
   initQuiz();
   initFaq();
   initPrideBadge(confetti);
   initMapInteraction();
   initCountdown();
 
-  // Initial render
+  // Initial icon render
   updateIcons();
+
+  console.info('[VoteWise] Application initialized successfully.');
 })();
